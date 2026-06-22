@@ -1,0 +1,114 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card, Button, Input } from '@/components/ui';
+import { useAuthStore } from '@/lib/store/auth-store';
+import { useWalletStore } from '@/lib/store/wallet-store';
+import { Wallet, ShieldAlert, KeyRound } from 'lucide-react';
+import Link from 'next/link';
+
+export default function EntryPage() {
+  const router = useRouter();
+  const { login, failedAttempts, isLocked, incrementFailedAttempts } = useAuthStore();
+  const { isInitialized } = useWalletStore();
+  const [pin, setPin] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  // If wallet is not initialized, show onboarding CTAs
+  if (!isInitialized) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[80vh] gap-8 max-w-md mx-auto text-center px-4">
+        <div className="flex flex-col items-center gap-3">
+          <div className="p-4 rounded-2xl bg-gradient-to-tr from-accent-primary to-accent-secondary animate-pulse-glow">
+            <Wallet size={48} className="text-white animate-float" />
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight font-sans text-text-primary mt-2">
+            A-WALLET
+          </h1>
+          <p className="text-sm text-text-secondary leading-relaxed max-w-sm">
+            Tus claves, tus tokens. Gestiona Solana, Bitcoin y BNB en una sola interfaz soberana.
+          </p>
+        </div>
+
+        <div className="w-full flex flex-col gap-4">
+          <Link href="/onboarding/create" className="w-full">
+            <Button variant="primary" fullWidth className="py-3.5">
+              Crear Nueva Wallet
+            </Button>
+          </Link>
+          <Link href="/onboarding/import" className="w-full">
+            <Button variant="secondary" fullWidth className="py-3.5">
+              Importar con Frase Semilla
+            </Button>
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-2 text-xs text-text-secondary">
+          <ShieldAlert size={14} className="text-accent-secondary" />
+          <span>Arquitectura híbrida MVC y no custodial</span>
+        </div>
+      </div>
+    );
+  }
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    if (pin.length < 6) {
+      setError('El PIN debe tener 6 dígitos');
+      return;
+    }
+
+    setLoading(true);
+    // Simular descifrado local con PIN
+    setTimeout(() => {
+      // PIN mock de prueba (123456)
+      if (pin === '123456') {
+        login('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mock_token');
+        setLoading(false);
+        router.push('/dashboard');
+      } else {
+        incrementFailedAttempts();
+        setError(`PIN incorrecto. Intenta con "123456" para demo. Intentos fallidos: ${failedAttempts + 1}/5`);
+        setLoading(false);
+      }
+    }, 1200);
+  };
+
+  return (
+    <Card className="max-w-md mx-auto p-6 md:p-8">
+      <form onSubmit={handleLogin} className="flex flex-col gap-6 text-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="p-3.5 rounded-xl bg-bg-tertiary border border-border">
+            <KeyRound size={28} className="text-accent-primary animate-pulse" />
+          </div>
+          <h2 className="text-xl font-bold text-text-primary mt-2">Desbloquear Wallet</h2>
+          <p className="text-xs text-text-secondary">Ingrese su PIN numérico para continuar (Demo: 123456)</p>
+        </div>
+
+        <Input 
+          type="password"
+          placeholder="••••••"
+          value={pin}
+          onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
+          maxLength={6}
+          className="text-center text-xl tracking-[0.75em] font-bold py-3"
+          autoFocus
+          disabled={loading || isLocked}
+        />
+
+        {error && (
+          <div className="p-3 rounded-lg bg-error-dim border border-error/20 text-error text-xs">
+            {error}
+          </div>
+        )}
+
+        <Button type="submit" isLoading={loading} disabled={isLocked || pin.length < 6} fullWidth>
+          Desbloquear
+        </Button>
+      </form>
+    </Card>
+  );
+}

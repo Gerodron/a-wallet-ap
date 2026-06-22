@@ -1,0 +1,52 @@
+services:
+  # Next.js Frontend
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NODE_ENV=production
+    depends_on:
+      - api
+
+  # .NET Core 8 Web API
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=WalletDb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True;
+      - Redis__Configuration=redis:6379
+      - RabbitMQ__Host=rabbitmq
+    depends_on:
+      - sqlserver
+      - redis
+      - rabbitmq
+
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrongPassword123!
+    ports:
+      - "1433:1433"
+
+  # Redis Cache
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # RabbitMQ Queue
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"

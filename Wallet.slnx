@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/api/" />
+  <Folder Name="/api/src/">
+    <Project Path="api/src/Wallet.API/Wallet.API.csproj" />
+  </Folder>
+</Solution>
