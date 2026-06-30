@@ -38,7 +38,7 @@ export function TokenList({ tokens }: TokenListProps) {
                 {/* Logo slot */}
                 <div 
                   className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-base font-bold border shrink-0
-                    ${token.network === 'solana' ? 'network-bg-solana border-[#9945FF]/20 text-[#9945FF]' : token.network === 'bitcoin' ? 'network-bg-bitcoin border-[#F7931A]/20 text-[#F7931A]' : 'network-bg-bnb border-[#F0B90B]/20 text-[#F0B90B]'}`}
+                    ${token.network === 'solana' ? 'bg-[#9945FF]/10 border-[#9945FF]/20 text-[#7A22E0]' : token.network === 'bitcoin' ? 'bg-[#F7931A]/10 border-[#F7931A]/20 text-[#C46A00]' : 'bg-[#F0B90B]/10 border-[#F0B90B]/20 text-[#926B00]'}`}
                 >
                   <span>{token.symbol.charAt(0)}</span>
                 </div>

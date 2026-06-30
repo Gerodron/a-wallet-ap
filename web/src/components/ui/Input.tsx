@@ -24,7 +24,7 @@ export function Input({
 
   const paddingLeftClass = icon ? 'pl-11' : '';
   const paddingRightClass = rightElement ? 'pr-11' : '';
-  const baseInputClass = "bg-bg-input border-1.5 border-border rounded-xl py-3 px-4 text-text-primary text-sm transition-all duration-200 outline-none focus:border-accent-secondary focus:ring-3 focus:ring-accent-secondary/12 disabled:bg-bg-secondary disabled:text-text-secondary disabled:cursor-not-allowed placeholder-text-tertiary w-full";
+  const baseInputClass = "bg-bg-input border-1.5 border-border rounded-xl py-3 px-4 text-text-primary text-sm transition-all duration-200 outline-none focus:border-accent-secondary focus:ring-3 focus:ring-accent-secondary/12 disabled:bg-bg-secondary disabled:text-text-secondary disabled:cursor-not-allowed placeholder:text-text-tertiary w-full";
   const errorClass = error ? 'border-error! focus:border-error! focus:ring-error-dim!' : '';
 
   return (

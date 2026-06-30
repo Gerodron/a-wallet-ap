@@ -9,11 +9,16 @@
   --bg-elevated: #FFFFFF;
   --bg-input: #FFFFFF;
 
-  --accent-primary: #002855;     /* Banco Pacífico style Deep Navy */
-  --accent-secondary: #004B93;   /* Brand Accent Blue */
-  --accent-navy: #002855;        /* Deep Navy */
-  --accent-light: #F0F5FA;       /* Extra light navy tint for hover states and focus */
-  --accent-gradient: #002855;    /* No gradients for minimalist aesthetics */
+  --accent-primary: #002855;
+  /* Banco Pacífico style Deep Navy */
+  --accent-secondary: #004B93;
+  /* Brand Accent Blue */
+  --accent-navy: #002855;
+  /* Deep Navy */
+  --accent-light: #F0F5FA;
+  /* Extra light navy tint for hover states and focus */
+  --accent-gradient: #002855;
+  /* No gradients for minimalist aesthetics */
   --accent-gradient-hover: #001C3D;
 
   --success: #059669;
@@ -24,10 +29,14 @@
   --warning-dim: #FFFBEB;
   --pending: #D97706;
 
-  --text-primary: #0F172A;       /* Almost black navy for high readability */
-  --text-secondary: #334155;     /* Dark slate for secondary text (not light grey) */
-  --text-tertiary: #64748B;      /* Intermediate slate */
-  --text-accent: #002855;        /* Accent text */
+  --text-primary: #0F172A;
+  /* Almost black navy for high readability */
+  --text-secondary: #334155;
+  /* Dark slate for secondary text (not light grey) */
+  --text-tertiary: #64748B;
+  /* Intermediate slate */
+  --text-accent: #002855;
+  /* Accent text */
 
   --border: #E2E8F0;
   --border-hover: #CBD5E1;
@@ -45,10 +54,10 @@
   --color-bnb: #F0B90B;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--bg-secondary);
   --color-foreground: var(--text-primary);
-  
+
   --color-bg-primary: var(--bg-primary);
   --color-bg-secondary: var(--bg-secondary);
   --color-bg-tertiary: var(--bg-tertiary);
@@ -76,8 +85,7 @@
 /* ===== BASE STYLES ===== */
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+
 }
 
 html {
@@ -105,57 +113,112 @@ body {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-secondary);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--text-tertiary);
   border-radius: var(--radius-full);
   border: 2px solid var(--bg-secondary);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
 }
 
 /* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInRight {
-  from { opacity: 0; transform: translateX(16px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-16px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 12px rgba(0, 61, 165, 0.1); }
-  50% { box-shadow: 0 0 24px rgba(0, 61, 165, 0.2); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 12px rgba(0, 61, 165, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 24px rgba(0, 61, 165, 0.2);
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-4px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 .animate-fade-in {
@@ -193,12 +256,29 @@ body {
 }
 
 /* ===== STAGGER ANIMATIONS ===== */
-.stagger-1 { animation-delay: 0.04s; }
-.stagger-2 { animation-delay: 0.08s; }
-.stagger-3 { animation-delay: 0.12s; }
-.stagger-4 { animation-delay: 0.16s; }
-.stagger-5 { animation-delay: 0.2s; }
-.stagger-6 { animation-delay: 0.24s; }
+.stagger-1 {
+  animation-delay: 0.04s;
+}
+
+.stagger-2 {
+  animation-delay: 0.08s;
+}
+
+.stagger-3 {
+  animation-delay: 0.12s;
+}
+
+.stagger-4 {
+  animation-delay: 0.16s;
+}
+
+.stagger-5 {
+  animation-delay: 0.2s;
+}
+
+.stagger-6 {
+  animation-delay: 0.24s;
+}
 
 /* ===== INTERACTIVE ONBOARDING TOUR HIGHLIGHTS (Dynamic classes called via classList) ===== */
 .tour-highlight-active {
@@ -226,10 +306,12 @@ body {
     transform: scale(0.95);
     opacity: 0.8;
   }
+
   50% {
     transform: scale(1.05);
     opacity: 0.3;
   }
+
   100% {
     transform: scale(1.15);
     opacity: 0;
@@ -243,20 +325,24 @@ body {
   font-weight: 600;
   border: 1px solid transparent;
   transition: all 0.2s ease-in-out;
+
   &:hover {
     background-color: var(--accent-gradient-hover);
   }
 }
+
 @utility btn-secondary {
   background-color: #FFFFFF;
   color: var(--accent-primary);
   border: 1px solid var(--accent-primary);
   font-weight: 600;
   transition: all 0.2s ease-in-out;
+
   &:hover {
     background-color: var(--accent-light);
   }
 }
+
 @utility sidebar-link {
   display: flex;
   align-items: center;
@@ -268,10 +354,12 @@ body {
   font-size: 13.5px;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
+
   &:hover {
     background-color: var(--accent-light);
     color: var(--accent-primary);
   }
+
   &.active {
     background-color: var(--accent-light);
     color: var(--accent-primary);
@@ -281,6 +369,7 @@ body {
     border-bottom-left-radius: 0;
   }
 }
+
 @utility seed-word {
   display: flex;
   align-items: center;
@@ -292,14 +381,14 @@ body {
   font-family: monospace;
   font-size: 12px;
 }
+
 @utility seed-index {
   color: var(--text-tertiary);
   font-weight: 700;
   user-select: none;
 }
+
 @utility seed-text {
   color: var(--text-primary);
   font-weight: 600;
 }
-
-

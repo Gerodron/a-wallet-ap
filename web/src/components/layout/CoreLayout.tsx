@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Header } from '@/components/layout/Header';
 import { BottomNav } from '@/components/layout/BottomNav';
@@ -12,11 +13,36 @@ import { useInactivityTimer } from '@/lib/hooks/useInactivityTimer';
 export function CoreLayout({ children }: { children: React.ReactNode }) {
   const { notifications, removeNotification } = useUIStore();
   const { isAuthenticated } = useAuthStore();
+  const router = useRouter();
+  const pathname = usePathname();
   
   // Activate global inactivity detector
   useInactivityTimer();
 
+  useEffect(() => {
+    const publicPaths = ['/', '/onboarding/create', '/onboarding/import'];
+    if (!isAuthenticated) {
+      if (!publicPaths.includes(pathname)) {
+        router.push('/');
+      }
+    } else {
+      if (publicPaths.includes(pathname)) {
+        router.push('/dashboard');
+      }
+    }
+  }, [isAuthenticated, pathname, router]);
+
+  const isPublicPath = ['/', '/onboarding/create', '/onboarding/import'].includes(pathname);
+
   if (!isAuthenticated) {
+    if (!isPublicPath) {
+      return (
+        <div className="min-h-screen bg-bg-secondary flex items-center justify-center p-4">
+          <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-accent-primary animate-spin" />
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-screen bg-bg-secondary text-text-primary flex items-center justify-center p-4">
         <main className="w-full max-w-lg animate-fade-in-up">

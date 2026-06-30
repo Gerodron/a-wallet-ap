@@ -9,6 +9,7 @@ interface CardProps {
   className?: string;
   onClick?: () => void;
   animate?: boolean;
+  style?: React.CSSProperties;
 }
 
 export function Card({
@@ -18,6 +19,7 @@ export function Card({
   className = '',
   onClick,
   animate = false,
+  style,
 }: CardProps) {
   const variantClass = variant === 'accent' 
     ? 'bg-bg-elevated border border-accent-primary/20 rounded-2xl shadow-xs hover:border-accent-primary/40 hover:shadow-sm transition-all duration-300' 
@@ -37,6 +39,7 @@ export function Card({
   return (
     <div
       className={`${variantClass} ${paddingMap[padding]} ${cursorClass} ${animate ? 'animate-fade-in' : ''} ${className}`}
+      style={style}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}

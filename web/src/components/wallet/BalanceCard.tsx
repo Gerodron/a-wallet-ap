@@ -19,7 +19,7 @@ export function BalanceCard() {
   };
 
   return (
-    <Card variant="flat" padding="lg" className="bg-accent-primary relative text-white border border-transparent rounded-2xl shadow-xs">
+    <Card variant="flat" padding="lg" className="relative text-white border border-transparent rounded-2xl shadow-xs" style={{ backgroundColor: '#002855' }}>
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col" id="tour-step-balance">
@@ -68,7 +68,7 @@ export function BalanceCard() {
             <Link 
               href="/receive" 
               id="tour-step-receive" 
-              className="py-2.5 px-4.5 rounded-lg flex items-center gap-1.5 text-xs bg-white/10 hover:bg-white/15 text-white border border-white/20 font-bold transition-all cursor-pointer"
+              className="py-2.5 px-4.5 rounded-lg flex items-center gap-1.5 text-xs bg-white/15 hover:bg-white/25 text-white border border-white/35 font-bold transition-all cursor-pointer"
             >
               <ArrowDownLeft size={14} className="stroke-[2.5]" />
               <span>Recibir</span>

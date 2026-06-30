@@ -95,75 +95,91 @@ export default function CreateWalletPage() {
       const isActive = step === current;
       if (isCompleted) return 'border-success bg-success text-white';
       if (isActive) return 'border-accent-secondary text-accent-secondary shadow-xs';
-      return 'border-slate-200 text-slate-400 bg-bg-primary';
+      return 'border-slate-200 text-slate-400 bg-white';
     };
 
+    const steps = [
+      { label: 'Inicio' },
+      { label: 'Semilla' },
+      { label: 'Verificar' },
+      { label: 'PIN' },
+      { label: 'Fin' },
+    ];
+
     return (
-      <div className="mb-6 px-1">
-        <div className="relative flex items-center justify-between w-full before:content-[''] before:absolute before:h-[2px] before:bg-slate-200 before:top-1/2 before:left-0 before:right-0 before:-translate-y-1/2 before:z-1">
+      <div className="mb-8 md:mb-10 px-1">
+        <div className="relative flex items-center justify-between w-full">
+          {/* Background line connecting all steps */}
+          <div className="absolute left-0 right-0 top-4 h-[2px] bg-slate-200 z-1" />
+          
           {/* Progress bar line */}
           <div 
-            className="absolute h-[2px] bg-accent-secondary top-1/2 -translate-y-1/2 z-1 transition-all duration-300" 
+            className="absolute left-0 top-4 h-[2px] bg-accent-secondary z-1 transition-all duration-300" 
             style={{ width: `${((step - 1) / 4) * 100}%` }}
           />
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div 
-              key={i} 
-              className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-[10px] font-extrabold relative z-2 transition-all duration-300 ${getStepDotClass(i)}`}
-            >
-              {step > i ? <Check size={12} className="stroke-[3]" /> : i}
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-between text-[8px] text-text-tertiary font-bold uppercase tracking-wider mt-2.5 px-0.5 select-none">
-          <span>Inicio</span>
-          <span>Semilla</span>
-          <span>Verificar</span>
-          <span>PIN</span>
-          <span>Fin</span>
+
+          {steps.map((s, index) => {
+            const isCurrent = step === index + 1;
+            return (
+              <div key={index} className="flex flex-col items-center flex-1 relative z-2">
+                <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300 bg-white ${getStepDotClass(index + 1)}`}>
+                  {step > index + 1 ? <Check size={14} className="stroke-[3]" /> : (index + 1)}
+                </div>
+                <span className={`text-[9px] md:text-[10px] font-bold uppercase tracking-wider mt-2.5 text-center select-none ${isCurrent ? 'text-accent-primary font-extrabold' : 'text-text-tertiary'}`}>
+                  {s.label}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
     );
   };
 
   return (
-    <Card className="max-w-md mx-auto p-6 md:p-8 border border-border bg-bg-primary shadow-md animate-fade-in">
+    <Card className="max-w-lg mx-auto p-6 md:p-10 border border-border bg-bg-primary shadow-xs animate-fade-in">
       {renderStepIndicator()}
 
       {step === 1 && (
-        <div className="flex flex-col gap-6 text-center">
-          <div className="flex flex-col items-center gap-2">
-            <div className="p-3.5 rounded-xl bg-accent-light text-accent-primary flex items-center justify-center">
-              <ShieldCheck size={36} className="text-accent-secondary" />
+        <div className="flex flex-col gap-8 text-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="p-4 rounded-2xl bg-accent-light text-accent-secondary flex items-center justify-center mb-1">
+              <ShieldCheck size={40} className="text-accent-primary animate-pulse" />
             </div>
-            <h2 className="text-xl font-bold text-accent-primary mt-2 tracking-tight">Crear Wallet Soberana</h2>
-            <p className="text-xs text-text-secondary leading-relaxed px-2 font-medium">
-              Se generará una frase semilla única de 12 palabras que controlará tus fondos en todas las redes.
-            </p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-warning-dim border border-warning/15 text-left flex gap-3 text-xs text-text-secondary leading-relaxed font-semibold">
-            <AlertTriangle size={18} className="text-warning shrink-0 mt-0.5" />
-            <div>
-              <span className="block font-bold text-accent-primary mb-1">¡Advertencia de Seguridad!</span>
-              Tú eres el único responsable de esta frase. Si la pierdes, perderás el acceso a tus fondos para siempre. Ningún servidor ni soporte técnico podrá ayudarte a recuperarla.
+            <div className="flex flex-col gap-2">
+              <h2 className="text-2xl font-bold text-accent-primary tracking-tight">Crear Wallet Soberana</h2>
+              <p className="text-sm text-text-secondary leading-relaxed max-w-sm font-medium">
+                Se generará una frase semilla única de 12 palabras que controlará tus fondos en todas las redes.
+              </p>
             </div>
           </div>
 
-          <Button onClick={startCreation} fullWidth className="shadow-xs">
+          <div className="p-5 md:p-6 rounded-2xl bg-warning-dim border border-warning/20 text-left flex items-start gap-4">
+            <AlertTriangle size={22} className="text-warning shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <span className="block text-sm font-bold text-accent-primary mb-1.5">¡Advertencia de Seguridad!</span>
+              <p className="text-xs text-text-secondary leading-relaxed font-medium">
+                Tú eres el único responsable de esta frase. Si la pierdes, perderás el acceso a tus fondos para siempre. Ningún servidor ni soporte técnico podrá ayudarte a recuperarla.
+              </p>
+            </div>
+          </div>
+
+          <Button onClick={startCreation} fullWidth className="py-3.5 shadow-sm text-sm">
             Generar Frase Semilla
           </Button>
         </div>
       )}
 
       {step === 2 && (
-        <div className="flex flex-col gap-5">
-          <h2 className="text-lg font-bold text-accent-primary text-center tracking-tight">Frase Mnemónica de Respaldo</h2>
-          <p className="text-xs text-text-secondary text-center leading-relaxed font-medium">
-            Escribe estas 12 palabras en el orden correcto en un papel y guárdalo en un lugar seguro offline.
-          </p>
+        <div className="flex flex-col gap-6">
+          <div className="text-center flex flex-col gap-2">
+            <h2 className="text-2xl font-bold text-accent-primary tracking-tight">Frase Mnemónica de Respaldo</h2>
+            <p className="text-sm text-text-secondary max-w-sm mx-auto leading-relaxed font-medium">
+              Escribe estas 12 palabras en el orden correcto en un papel y guárdalo en un lugar seguro offline.
+            </p>
+          </div>
 
-          <div className="grid grid-cols-3 gap-2.5 my-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4 my-4">
             {words.map((word, index) => (
               <div key={index} className="seed-word">
                 <span className="seed-index">{index + 1}</span>
@@ -172,29 +188,29 @@ export default function CreateWalletPage() {
             ))}
           </div>
 
-          <div className="flex gap-2.5 mt-2">
-            <Button variant="secondary" onClick={handleCopy} className="flex-1 text-xs py-2.5 shadow-xs">
-              {copied ? <Check size={14} className="text-success mr-1.5 stroke-[3]" /> : <Copy size={14} className="mr-1.5" />}
-              <span>Copiar</span>
+          <div className="flex gap-4 mt-8">
+            <Button variant="secondary" onClick={handleCopy} className="flex-1 py-3 text-sm shadow-xs">
+              {copied ? <Check size={16} className="text-success mr-2 stroke-[3]" /> : <Copy size={16} className="mr-2" />}
+              <span>Copiar frase</span>
             </Button>
             <Button 
               variant={backupConfirmed ? 'primary' : 'secondary'}
               onClick={() => setStep(3)} 
               disabled={!backupConfirmed}
-              className="flex-1 text-xs py-2.5 shadow-xs"
+              className="flex-1 py-3 text-sm shadow-xs"
             >
               <span>Siguiente</span>
             </Button>
           </div>
 
-          <label className="flex items-start gap-3 mt-4 cursor-pointer select-none text-left p-3.5 rounded-xl border border-border bg-bg-secondary hover:bg-bg-tertiary transition-colors">
+          <label className="flex items-start gap-3 mt-6 cursor-pointer select-none text-left p-4 rounded-2xl border border-border bg-bg-secondary hover:bg-bg-tertiary transition-all duration-200">
             <input 
               type="checkbox" 
               checked={backupConfirmed} 
               onChange={(e) => setBackupConfirmed(e.target.checked)}
-              className="mt-0.5 w-4 h-4 accent-accent-secondary shrink-0 cursor-pointer"
+              className="mt-0.5 w-4.5 h-4.5 accent-accent-primary shrink-0 cursor-pointer"
             />
-            <span className="text-[11px] text-text-secondary leading-normal font-semibold">
+            <span className="text-xs text-text-secondary leading-normal font-semibold">
               Confirmo que he respaldado mi frase mnemónica con seguridad y en orden.
             </span>
           </label>
@@ -202,72 +218,80 @@ export default function CreateWalletPage() {
       )}
 
       {step === 3 && (
-        <div className="flex flex-col gap-5">
-          <h2 className="text-lg font-bold text-accent-primary text-center tracking-tight">Verificación de Frase</h2>
-          <p className="text-xs text-text-secondary text-center font-medium leading-relaxed">
-            Para comprobar que la has guardado, escribe la palabra número <strong className="text-accent-secondary">#{verificationIndex + 1}</strong> de tu frase semilla.
-          </p>
+        <div className="flex flex-col gap-6">
+          <div className="text-center flex flex-col gap-2">
+            <h2 className="text-2xl font-bold text-accent-primary tracking-tight">Verificación de Frase</h2>
+            <p className="text-sm text-text-secondary max-w-sm mx-auto font-medium leading-relaxed">
+              Para comprobar que la has guardado, escribe la palabra número <strong className="text-accent-secondary">#{verificationIndex + 1}</strong> de tu frase semilla.
+            </p>
+          </div>
 
-          <Input 
-            placeholder={`Palabra #${verificationIndex + 1}`}
-            value={verificationWord}
-            onChange={(e) => setVerificationWord(e.target.value.replace(/[^a-zA-Z]/g, ''))}
-            error={error}
-          />
+          <div className="my-4">
+            <Input 
+              placeholder={`Palabra #${verificationIndex + 1}`}
+              value={verificationWord}
+              onChange={(e) => setVerificationWord(e.target.value.replace(/[^a-zA-Z]/g, ''))}
+              error={error}
+            />
+          </div>
 
-          <Button onClick={verifyMnemonic} fullWidth className="shadow-xs">
+          <Button onClick={verifyMnemonic} fullWidth className="py-3.5 mt-4 shadow-sm text-sm">
             Confirmar y Continuar
           </Button>
         </div>
       )}
 
       {step === 4 && (
-        <div className="flex flex-col gap-5">
-          <h2 className="text-lg font-bold text-accent-primary text-center tracking-tight">Configurar PIN de Acceso</h2>
-          <p className="text-xs text-text-secondary text-center leading-relaxed font-medium">
-            Este PIN de 6 dígitos se usará localmente para cifrar tus llaves y firmar transacciones en este navegador.
-          </p>
+        <div className="flex flex-col gap-6">
+          <div className="text-center flex flex-col gap-2">
+            <h2 className="text-2xl font-bold text-accent-primary tracking-tight">Configurar PIN de Acceso</h2>
+            <p className="text-sm text-text-secondary max-w-sm mx-auto leading-relaxed font-medium">
+              Este PIN de 6 dígitos se usará localmente para cifrar tus llaves y firmar transacciones en este navegador.
+            </p>
+          </div>
 
-          <Input 
-            label="PIN Numérico"
-            type="password"
-            placeholder="••••••"
-            value={pin}
-            onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
-            maxLength={6}
-            className="text-center tracking-[0.5em] text-lg font-bold"
-          />
+          <div className="flex flex-col gap-4 my-2">
+            <Input 
+              label="PIN Numérico"
+              type="password"
+              placeholder="••••••"
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              maxLength={6}
+              className="text-center tracking-[0.5em] text-lg font-bold py-3"
+            />
 
-          <Input 
-            label="Confirmar PIN"
-            type="password"
-            placeholder="••••••"
-            value={confirmPin}
-            onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
-            maxLength={6}
-            className="text-center tracking-[0.5em] text-lg font-bold"
-            error={error}
-          />
+            <Input 
+              label="Confirmar PIN"
+              type="password"
+              placeholder="••••••"
+              value={confirmPin}
+              onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              maxLength={6}
+              className="text-center tracking-[0.5em] text-lg font-bold py-3"
+              error={error}
+            />
+          </div>
 
-          <Button onClick={saveWallet} isLoading={loading} fullWidth className="shadow-xs">
+          <Button onClick={saveWallet} isLoading={loading} fullWidth className="py-3.5 mt-4 shadow-sm text-sm">
             Finalizar Configuración
           </Button>
         </div>
       )}
 
       {step === 5 && (
-        <div className="flex flex-col items-center justify-center text-center p-4 gap-6 animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-success-dim border border-success/30 flex items-center justify-center text-success shadow-sm">
-            <ShieldCheck size={32} className="text-success stroke-[2.5]" />
+        <div className="flex flex-col items-center justify-center text-center p-4 gap-8 animate-fade-in">
+          <div className="w-16 h-16 rounded-full bg-success-dim border border-success/30 flex items-center justify-center text-success shadow-xs shrink-0">
+            <ShieldCheck size={36} className="text-success stroke-[2.5]" />
           </div>
-          <div>
-            <h2 className="text-xl font-bold text-accent-primary tracking-tight">¡Wallet Creada con Éxito!</h2>
-            <p className="text-xs text-text-secondary mt-1.5 max-w-xs font-semibold">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-2xl font-bold text-accent-primary tracking-tight">¡Wallet Creada con Éxito!</h2>
+            <p className="text-sm text-text-secondary max-w-xs font-semibold leading-relaxed">
               Tus llaves han sido generadas y cifradas de forma segura localmente con AES-256.
             </p>
           </div>
 
-          <Button onClick={() => router.push('/dashboard')} fullWidth className="shadow-xs">
+          <Button onClick={() => router.push('/dashboard')} fullWidth className="py-3.5 mt-2 shadow-sm text-sm">
             Ir al Dashboard
           </Button>
         </div>
