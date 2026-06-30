@@ -29,11 +29,10 @@ export function BottomNav() {
           <Link
             key={tab.href}
             href={tab.href}
-            className={`flex flex-col items-center gap-1 py-1.5 px-3.5 rounded-xl transition-all duration-200 min-w-[64px]
-              ${isActive ? 'text-accent-primary bg-accent-light' : 'text-text-secondary hover:text-text-primary'}`}
+            className={`bottom-nav-link ${isActive ? 'active' : ''}`}
           >
-            <Icon size={18} />
-            <span className="text-[10px] font-bold tracking-wide font-sans">{tab.label}</span>
+            <Icon size={18} className="nav-icon shrink-0" />
+            <span className="text-[9px] font-bold tracking-wide font-sans">{tab.label}</span>
           </Link>
         );
       })}

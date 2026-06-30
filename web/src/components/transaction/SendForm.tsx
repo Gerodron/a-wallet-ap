@@ -102,102 +102,106 @@ export function SendForm() {
   };
 
   return (
-    <Card className="max-w-md mx-auto border border-border bg-bg-primary shadow-md p-6 md:p-8">
+    <Card className="max-w-md mx-auto border border-border bg-bg-primary shadow-xs p-6 md:p-8 animate-fade-in">
       {renderStepIndicator()}
 
       {step === 1 && (
         <div className="flex flex-col gap-5">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2.5 pb-2 border-b border-border">
             <Send size={18} className="text-accent-primary shrink-0" />
             <h2 className="text-lg font-bold text-accent-primary">Enviar {activeConfig.symbol}</h2>
           </div>
 
-          <Input 
-            label="Dirección de Destino"
-            placeholder={`Dirección de ${activeConfig.name}`}
-            value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
-            error={error && recipient === '' ? error : undefined}
-          />
-
-          <div className="relative">
+          <div className="flex flex-col gap-4 mt-1">
             <Input 
-              label="Monto a Transferir"
-              type="number"
-              placeholder="0.00"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              rightElement={<span className="text-xs text-text-secondary pr-1.5 font-bold">{activeConfig.symbol}</span>}
+              label="Dirección de Destino"
+              placeholder={`Dirección de ${activeConfig.name}`}
+              value={recipient}
+              onChange={(e) => setRecipient(e.target.value)}
+              error={error && recipient === '' ? error : undefined}
             />
-            <div className="flex items-center justify-between text-[11px] text-text-secondary mt-1 px-0.5">
-              <span className="font-medium">Disponible: {balance.toFixed(4)} {activeConfig.symbol}</span>
-              <button 
-                onClick={() => setAmount(balance.toString())}
-                className="text-accent-secondary font-bold hover:underline cursor-pointer"
-              >
-                Máx
-              </button>
+
+            <div className="relative">
+              <Input 
+                label="Monto a Transferir"
+                type="number"
+                placeholder="0.00"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                rightElement={<span className="text-xs text-text-secondary pr-1 font-bold">{activeConfig.symbol}</span>}
+              />
+              <div className="flex items-center justify-between text-[10px] md:text-[11px] text-text-secondary mt-1 px-0.5">
+                <span className="font-medium">Disponible: {balance.toFixed(4)} {activeConfig.symbol}</span>
+                <button 
+                  onClick={() => setAmount(balance.toString())}
+                  className="text-accent-secondary font-bold hover:underline cursor-pointer"
+                >
+                  Máx
+                </button>
+              </div>
             </div>
           </div>
 
           {error && recipient !== '' && (
-            <div className="flex items-start gap-2 p-3 rounded-lg bg-error-dim border border-error/15 text-error text-xs font-semibold">
-              <AlertTriangle size={14} className="shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-error-dim border border-error/15 text-error text-xs font-semibold">
+              <AlertTriangle size={15} className="shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
-          <Button onClick={handleNext} fullWidth className="shadow-xs">
+          <Button onClick={handleNext} fullWidth className="py-2.5 mt-2 shadow-sm text-xs md:text-sm">
             Continuar
           </Button>
         </div>
       )}
 
       {step === 2 && (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           <h2 className="text-lg font-bold text-accent-primary text-center tracking-tight">Confirmar Envío</h2>
           
-          <div className="p-5 rounded-xl bg-bg-secondary border border-border flex flex-col gap-3.5 shadow-xs">
-            <div className="flex items-center justify-between border-b border-border pb-2.5">
-              <span className="text-xs text-text-secondary font-semibold">Monto</span>
+          <div className="p-4 rounded-xl bg-bg-secondary border border-border flex flex-col gap-3 shadow-xs">
+            <div className="flex items-center justify-between border-b border-border/80 pb-2.5">
+              <span className="text-[11px] text-text-secondary font-semibold">Monto</span>
               <span className="text-sm font-extrabold text-accent-primary">{amount} {activeConfig.symbol}</span>
             </div>
-            <div className="flex items-center justify-between border-b border-border pb-2.5">
-              <span className="text-xs text-text-secondary font-semibold">Red</span>
-              <span className="text-xs font-bold text-text-primary">{activeConfig.name}</span>
+            <div className="flex items-center justify-between border-b border-border/80 pb-2.5">
+              <span className="text-[11px] text-text-secondary font-semibold">Red</span>
+              <span className="text-[11px] font-bold text-text-primary">{activeConfig.name}</span>
             </div>
-            <div className="flex flex-col gap-1 border-b border-border pb-2.5">
-              <span className="text-xs text-text-secondary font-semibold">Destinatario</span>
+            <div className="flex flex-col gap-1 border-b border-border/80 pb-2.5">
+              <span className="text-[11px] text-text-secondary font-semibold">Destinatario</span>
               <span className="font-mono text-xs text-text-primary break-all leading-relaxed bg-bg-primary p-2.5 rounded-lg border border-border">{recipient}</span>
             </div>
-            <div className="flex items-center justify-between text-[11px] text-text-secondary font-medium">
+            <div className="flex items-center justify-between text-xs text-text-secondary font-semibold">
               <span>Tarifa de red</span>
               <span>~ 0.000005 {activeConfig.symbol}</span>
             </div>
           </div>
 
-          <Input 
-            label="PIN de Acceso"
-            type="password"
-            placeholder="Ingrese su PIN de 6 dígitos"
-            value={pin}
-            onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
-            maxLength={6}
-            className="text-center tracking-[0.5em] font-bold"
-          />
+          <div className="my-1">
+            <Input 
+              label="PIN de Acceso"
+              type="password"
+              placeholder="Ingrese su PIN de 6 dígitos"
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              maxLength={6}
+              className="text-center tracking-[0.5em] font-bold py-2.5"
+            />
+          </div>
 
           {error && (
-            <div className="flex items-start gap-2 p-3 rounded-lg bg-error-dim border border-error/15 text-error text-xs font-semibold">
-              <AlertTriangle size={14} className="shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-error-dim border border-error/15 text-error text-xs font-semibold">
+              <AlertTriangle size={15} className="shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
-          <div className="flex gap-3">
-            <Button variant="secondary" onClick={() => setStep(1)} fullWidth>
+          <div className="flex gap-3 mt-2">
+            <Button variant="secondary" onClick={() => setStep(1)} className="flex-1 py-2.5 text-xs md:text-sm">
               Atrás
             </Button>
-            <Button onClick={handleSend} isLoading={loading} fullWidth className="shadow-xs">
+            <Button onClick={handleSend} isLoading={loading} className="flex-1 py-2.5 text-xs md:text-sm shadow-sm">
               Autorizar y Enviar
             </Button>
           </div>
@@ -205,21 +209,21 @@ export function SendForm() {
       )}
 
       {step === 3 && (
-        <div className="flex flex-col items-center justify-center text-center p-4 gap-5 animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-success-dim border border-success/30 flex items-center justify-center text-success shadow-sm">
-            <Check size={32} className="stroke-[3]" />
+        <div className="flex flex-col items-center justify-center text-center p-2 gap-5 animate-fade-in">
+          <div className="w-14 h-14 rounded-full bg-success-dim border border-success/30 flex items-center justify-center text-success shadow-xs shrink-0">
+            <Check size={28} className="stroke-[3]" />
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-accent-primary tracking-tight">¡Transacción Enviada!</h2>
-            <p className="text-xs text-text-secondary mt-1 font-medium">El broadcast se ha realizado exitosamente.</p>
-          </div>
-
-          <div className="w-full p-4 rounded-xl bg-bg-secondary border border-border text-left shadow-xs">
-            <span className="text-[10px] text-text-secondary block font-bold uppercase tracking-wider">Tx Hash</span>
-            <span className="font-mono text-xs text-text-primary break-all block mt-1.5 leading-relaxed bg-bg-primary p-2.5 rounded-lg border border-border">{txHash}</span>
+          <div className="flex flex-col gap-1.5">
+            <h2 className="text-xl font-bold text-accent-primary tracking-tight">¡Transacción Enviada!</h2>
+            <p className="text-xs text-text-secondary font-semibold">El broadcast se ha realizado exitosamente.</p>
           </div>
 
-          <Button onClick={() => { setStep(1); setAmount(''); setRecipient(''); setPin(''); }} fullWidth className="shadow-xs">
+          <div className="w-full p-4 rounded-xl bg-bg-secondary border border-border text-left shadow-xs mt-1">
+            <span className="text-[9px] text-text-secondary block font-bold uppercase tracking-wider mb-1.5">Tx Hash</span>
+            <span className="font-mono text-xs text-text-primary break-all block leading-relaxed bg-bg-primary p-2.5 rounded-lg border border-border">{txHash}</span>
+          </div>
+
+          <Button onClick={() => { setStep(1); setAmount(''); setRecipient(''); setPin(''); }} fullWidth className="py-2.5 mt-2 shadow-sm text-xs md:text-sm">
             Nueva Transferencia
           </Button>
         </div>

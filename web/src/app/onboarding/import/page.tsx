@@ -116,26 +116,26 @@ export default function ImportWalletPage() {
   };
 
   return (
-    <Card className="max-w-lg mx-auto p-6 md:p-10 border border-border bg-bg-primary shadow-xs animate-fade-in">
+    <Card className="max-w-md mx-auto p-6 md:p-8 border border-border bg-bg-primary shadow-xs animate-fade-in">
       {renderStepIndicator()}
 
       {step === 1 && (
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col items-center gap-4 text-center">
-            <div className="p-4 rounded-2xl bg-accent-light text-accent-secondary flex items-center justify-center mb-1">
-              <KeyRound size={36} className="text-accent-primary animate-pulse" />
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col items-center gap-3 text-center">
+            <div className="p-3 rounded-xl bg-accent-light text-accent-secondary flex items-center justify-center mb-1">
+              <KeyRound size={28} className="text-accent-primary animate-pulse" />
             </div>
-            <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-bold text-accent-primary tracking-tight">Importar Wallet</h2>
-              <p className="text-sm text-text-secondary leading-relaxed max-w-sm font-medium">
+            <div className="flex flex-col gap-1.5">
+              <h2 className="text-xl font-bold text-accent-primary tracking-tight">Importar Wallet</h2>
+              <p className="text-xs md:text-sm text-text-secondary leading-relaxed max-w-xs font-medium">
                 Ingrese su frase de recuperación de 12 o 24 palabras separadas por espacios.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 my-2">
+          <div className="flex flex-col gap-2 my-1">
             <textarea
-              className="w-full bg-bg-input border-1.5 border-border rounded-xl min-h-[120px] resize-none text-sm tracking-wide leading-relaxed font-mono p-4 focus:border-accent-secondary focus:ring-3 focus:ring-accent-secondary/12 outline-none transition-all duration-200 placeholder:text-text-tertiary text-text-primary"
+              className="w-full bg-bg-input border-1.5 border-border rounded-xl min-h-[100px] resize-none text-xs tracking-wide leading-relaxed font-mono p-3.5 focus:border-accent-secondary focus:ring-3 focus:ring-accent-secondary/12 outline-none transition-all duration-200 placeholder:text-text-tertiary text-text-primary"
               placeholder="word1 word2 word3..."
               value={mnemonic}
               onChange={(e) => setMnemonic(e.target.value)}
@@ -143,22 +143,22 @@ export default function ImportWalletPage() {
             {error && <span className="text-xs text-error font-semibold mt-1">{error}</span>}
           </div>
 
-          <Button onClick={handleVerifySeed} fullWidth className="py-3.5 shadow-sm text-sm">
+          <Button onClick={handleVerifySeed} fullWidth className="py-2.5 shadow-sm text-xs md:text-sm">
             Verificar Frase Semilla
           </Button>
         </div>
       )}
 
       {step === 2 && (
-        <div className="flex flex-col gap-6">
-          <div className="text-center flex flex-col gap-2">
-            <h2 className="text-2xl font-bold text-accent-primary tracking-tight">Configurar PIN de Acceso</h2>
-            <p className="text-sm text-text-secondary max-w-sm mx-auto font-medium leading-relaxed">
+        <div className="flex flex-col gap-5">
+          <div className="text-center flex flex-col gap-1.5">
+            <h2 className="text-xl font-bold text-accent-primary tracking-tight">Configurar PIN de Acceso</h2>
+            <p className="text-xs md:text-sm text-text-secondary max-w-xs mx-auto font-medium leading-relaxed">
               El PIN cifra tu frase semilla localmente. Nunca se transmite a la base de datos central.
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 my-2">
+          <div className="flex flex-col gap-3 my-1">
             <Input 
               label="PIN de 6 dígitos"
               type="password"
@@ -166,7 +166,7 @@ export default function ImportWalletPage() {
               value={pin}
               onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
               maxLength={6}
-              className="text-center tracking-[0.5em] text-lg font-bold py-3"
+              className="text-center tracking-[0.5em] text-base font-bold py-2.5"
             />
 
             <Input 
@@ -176,30 +176,30 @@ export default function ImportWalletPage() {
               value={confirmPin}
               onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
               maxLength={6}
-              className="text-center tracking-[0.5em] text-lg font-bold py-3"
+              className="text-center tracking-[0.5em] text-base font-bold py-2.5"
               error={error}
             />
           </div>
 
-          <Button onClick={handleImport} isLoading={loading} fullWidth className="py-3.5 mt-4 shadow-sm text-sm">
+          <Button onClick={handleImport} isLoading={loading} fullWidth className="py-2.5 mt-2 shadow-sm text-xs md:text-sm">
             Importar Wallet
           </Button>
         </div>
       )}
 
       {step === 3 && (
-        <div className="flex flex-col items-center justify-center text-center p-4 gap-8 animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-success-dim border border-success/30 flex items-center justify-center text-success shadow-xs shrink-0">
-            <ShieldCheck size={36} className="text-success stroke-[2.5]" />
+        <div className="flex flex-col items-center justify-center text-center p-2 gap-6 animate-fade-in">
+          <div className="w-14 h-14 rounded-full bg-success-dim border border-success/30 flex items-center justify-center text-success shadow-xs shrink-0">
+            <ShieldCheck size={30} className="text-success stroke-[2.5]" />
           </div>
-          <div className="flex flex-col gap-2">
-            <h2 className="text-2xl font-bold text-accent-primary tracking-tight">¡Wallet Importada!</h2>
-            <p className="text-sm text-text-secondary max-w-xs font-semibold leading-relaxed">
+          <div className="flex flex-col gap-1.5">
+            <h2 className="text-xl font-bold text-accent-primary tracking-tight">¡Wallet Importada!</h2>
+            <p className="text-xs text-text-secondary max-w-xs font-semibold leading-relaxed">
               Las claves asociadas han sido recuperadas y cifradas exitosamente.
             </p>
           </div>
 
-          <Button onClick={() => router.push('/dashboard')} fullWidth className="py-3.5 mt-2 shadow-sm text-sm">
+          <Button onClick={() => router.push('/dashboard')} fullWidth className="py-2.5 mt-1 shadow-sm text-xs md:text-sm">
             Ir al Dashboard
           </Button>
         </div>
