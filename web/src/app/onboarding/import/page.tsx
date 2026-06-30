@@ -8,6 +8,7 @@ import { encryptData } from '@/lib/crypto/encryption';
 import { useWallet } from '@/lib/hooks/useWallet';
 import { useAuthStore } from '@/lib/store/auth-store';
 import { KeyRound, ShieldCheck, Check } from 'lucide-react';
+import { financeService } from '@/lib/api/financeService';
 
 export default function ImportWalletPage() {
   const router = useRouter();
@@ -52,19 +53,28 @@ export default function ImportWalletPage() {
         localStorage.setItem('wallet_encrypted_seed', JSON.stringify(encrypted));
       }
 
-      setAddresses({
+      const payloadAddresses = {
         solana: wallets.solana.address,
         bitcoin: wallets.bitcoin.address,
         bnb: wallets.bnb.address,
+      };
+
+      // Call API register
+      const response = await financeService.register({
+        username: 'user_' + wallets.solana.address.slice(0, 8),
+        pin: pin,
+        addresses: payloadAddresses
       });
 
-      // Correct login action from Auth store
-      login('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mock_token');
+      setAddresses(payloadAddresses);
+
+      // Correct login action from Auth store with the API token
+      login(response.token);
       
       setInitialized(true);
       setStep(3);
     } catch (err: any) {
-      setError('Error al importar la frase semilla');
+      setError(err instanceof Error ? err.message : 'Error al registrar la wallet importada en la API');
     } finally {
       setLoading(false);
     }

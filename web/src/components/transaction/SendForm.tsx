@@ -6,6 +6,7 @@ import { Card, Button, Input } from '@/components/ui';
 import { validateAddress } from '@/lib/crypto/address-validator';
 import { Send, AlertTriangle, ArrowRight, Check } from 'lucide-react';
 import { NETWORK_CONFIGS } from '@/lib/types/network';
+import { financeService } from '@/lib/api/financeService';
 
 export function SendForm() {
   const { activeNetwork, balances, addresses } = useWallet();
@@ -50,14 +51,20 @@ export function SendForm() {
     }
     setLoading(true);
     try {
-      // Mock transaction broadcast
-      setTimeout(() => {
-        setTxHash('5A7k9XmN4pQW3zL2r7Y6V5t4e3w2q1u0p9o8i7u6y5t4r3e2w1q');
-        setLoading(false);
-        setStep(3);
-      }, 2000);
+      // Call real API to transfer
+      const response = await financeService.transfer({
+        fromAddress: addresses[activeNetwork] || '',
+        toAddress: recipient,
+        amount: parseFloat(amount),
+        network: activeNetwork,
+        pin: pin
+      });
+      
+      setTxHash(response.txHash);
+      setStep(3);
     } catch (err: any) {
-      setError(err.message || 'Transmisión de transacción fallida');
+      setError(err instanceof Error ? err.message : 'Error al transferir fondos a través de la API');
+    } finally {
       setLoading(false);
     }
   };

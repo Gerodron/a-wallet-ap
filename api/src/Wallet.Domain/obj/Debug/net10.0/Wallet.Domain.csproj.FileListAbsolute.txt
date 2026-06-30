@@ -1,0 +1,11 @@
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\bin\Debug\net10.0\Wallet.Domain.deps.json
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\bin\Debug\net10.0\Wallet.Domain.dll
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\bin\Debug\net10.0\Wallet.Domain.pdb
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\obj\Debug\net10.0\Wallet.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\obj\Debug\net10.0\Wallet.Domain.AssemblyInfoInputs.cache
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\obj\Debug\net10.0\Wallet.Domain.AssemblyInfo.cs
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\obj\Debug\net10.0\Wallet.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\obj\Debug\net10.0\Wallet.Domain.dll
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\obj\Debug\net10.0\refint\Wallet.Domain.dll
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\obj\Debug\net10.0\Wallet.Domain.pdb
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Domain\obj\Debug\net10.0\ref\Wallet.Domain.dll

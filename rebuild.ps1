@@ -20,9 +20,9 @@ docker compose down
 Write-Host "[OK] Contenedores detenidos correctamente." -ForegroundColor Green
 
 # 3. Pull latest baseline images and force rebuild local images without cache
-Write-Host "[3/5] Descargando ultimas versiones de base de datos/colas y compilando codigo limpio (SIN CACHE)..." -ForegroundColor Yellow
+Write-Host "[3/5] Descargando ultimas versiones de base de datos/colas y compilando codigo limpio (APROVECHANDO CACHE)..." -ForegroundColor Yellow
 docker compose pull
-docker compose build --no-cache
+docker compose build
 docker compose up --force-recreate -d
 
 if ($LastExitCode -ne 0) {

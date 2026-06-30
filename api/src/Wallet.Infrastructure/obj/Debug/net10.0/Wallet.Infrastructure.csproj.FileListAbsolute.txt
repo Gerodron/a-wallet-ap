@@ -1,0 +1,17 @@
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\bin\Debug\net10.0\Wallet.Infrastructure.deps.json
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\bin\Debug\net10.0\Wallet.Infrastructure.dll
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\bin\Debug\net10.0\Wallet.Infrastructure.pdb
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\bin\Debug\net10.0\Wallet.Application.dll
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\bin\Debug\net10.0\Wallet.Domain.dll
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\bin\Debug\net10.0\Wallet.Application.pdb
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\bin\Debug\net10.0\Wallet.Domain.pdb
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\Wallet.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\Wallet.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\Wallet.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\Wallet.Infrastructure.AssemblyInfo.cs
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\Wallet.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\Wallet.I.AE2D343B.Up2Date
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\Wallet.Infrastructure.dll
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\refint\Wallet.Infrastructure.dll
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\Wallet.Infrastructure.pdb
+C:\Users\Saul\Desktop\saul\Universidad\base-datos-avanazdo\U3-PROYECTO\wallet\api\src\Wallet.Infrastructure\obj\Debug\net10.0\ref\Wallet.Infrastructure.dll

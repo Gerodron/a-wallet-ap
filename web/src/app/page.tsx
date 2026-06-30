@@ -7,6 +7,7 @@ import { useAuthStore } from '@/lib/store/auth-store';
 import { useWalletStore } from '@/lib/store/wallet-store';
 import { ShieldAlert, KeyRound } from 'lucide-react';
 import Link from 'next/link';
+import { financeService } from '@/lib/api/financeService';
 
 export default function EntryPage() {
   const router = useRouter();
@@ -69,19 +70,16 @@ export default function EntryPage() {
     }
 
     setLoading(true);
-    // Simular descifrado local con PIN
-    setTimeout(() => {
-      // PIN mock de prueba (123456)
-      if (pin === '123456') {
-        login('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mock_token');
-        setLoading(false);
-        router.push('/dashboard');
-      } else {
-        incrementFailedAttempts();
-        setError(`PIN incorrecto. Intenta con "123456" para demo. Intentos fallidos: ${failedAttempts + 1}/5`);
-        setLoading(false);
-      }
-    }, 1200);
+    try {
+      const response = await financeService.login(pin);
+      login(response.token);
+      router.push('/dashboard');
+    } catch (err) {
+      incrementFailedAttempts();
+      setError(err instanceof Error ? err.message : 'Error al conectar con la API de desbloqueo');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -93,7 +91,7 @@ export default function EntryPage() {
           </div>
           <div className="flex flex-col gap-1.5">
             <h2 className="text-xl font-bold text-accent-primary tracking-tight">Desbloquear Wallet</h2>
-            <p className="text-[11px] md:text-xs text-text-secondary font-medium">Ingrese su PIN numérico para continuar (Demo: 123456)</p>
+            <p className="text-[11px] md:text-xs text-text-secondary font-medium">Ingrese su PIN numérico para continuar</p>
           </div>
         </div>
 

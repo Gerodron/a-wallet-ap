@@ -18,10 +18,25 @@ import type { ApiResponse, ApiError } from '@/lib/types/api';
 // Config
 // ---------------------------------------------------------------------------
 
-const BASE_URL =
-  typeof process !== 'undefined'
-    ? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'
-    : 'http://localhost:3001/api';
+const getBaseUrl = (): string => {
+  // Check build-time env var
+  if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_URL) {
+    let url = process.env.NEXT_PUBLIC_API_URL;
+    if (!url.endsWith('/api')) {
+      url = url.endsWith('/') ? `${url}api` : `${url}/api`;
+    }
+    return url;
+  }
+
+  // Detect dynamically based on browser URL
+  if (typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.hostname}:8080/api`;
+  }
+
+  return 'http://localhost:8080/api';
+};
+
+const BASE_URL = getBaseUrl();
 
 // ---------------------------------------------------------------------------
 // Custom error class

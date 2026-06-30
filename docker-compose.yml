@@ -4,10 +4,12 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8080/api
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NEXT_PUBLIC_API_URL=http://localhost:8080/api
       - NODE_ENV=production
     depends_on:
       - api
@@ -21,7 +23,7 @@ services:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=WalletDb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AWalletDB;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True;
       - Redis__Configuration=redis:6379
       - RabbitMQ__Host=rabbitmq
     depends_on:

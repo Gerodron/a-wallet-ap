@@ -1,0 +1,13 @@
+.git
+.vs
+.idea
+**/bin
+**/obj
+web/node_modules
+web/.next
+web/out
+api/out
+api/bin
+api/obj
+node_modules
+*.log

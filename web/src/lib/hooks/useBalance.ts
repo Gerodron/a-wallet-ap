@@ -11,6 +11,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useWalletStore } from '@/lib/store/wallet-store';
 import type { NetworkType, Balance } from '@/lib/types/wallet';
+import { financeService } from '@/lib/api/financeService';
 
 const POLL_INTERVAL = 30_000;
 
@@ -50,25 +51,25 @@ export function useBalance(
     setError(null);
 
     try {
-      // Mock balance retrieval based on network
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      // Call real API balances
+      const response = await financeService.getBalances();
       
-      let amount = 0;
-      let symbol = 'SOL';
-      if (network === 'solana') { amount = 25.425; symbol = 'SOL'; }
-      else if (network === 'bitcoin') { amount = 0.0842; symbol = 'BTC'; }
-      else if (network === 'bnb') { amount = 4.150; symbol = 'BNB'; }
+      const networkBalance = response[network] || {
+        native: 0,
+        nativeSymbol: network === 'solana' ? 'SOL' : network === 'bitcoin' ? 'BTC' : 'BNB',
+        nativeUSD: 0
+      };
 
-      const mockData: Balance = {
-        native: amount,
-        nativeSymbol: symbol,
-        nativeUSD: amount * (network === 'solana' ? 140 : network === 'bitcoin' ? 68000 : 580),
+      const finalData: Balance = {
+        native: networkBalance.native,
+        nativeSymbol: networkBalance.nativeSymbol,
+        nativeUSD: networkBalance.nativeUSD,
         tokens: []
       };
 
       if (mountedRef.current) {
-        setLocalBalance(mockData);
-        setBalance(network, mockData);
+        setLocalBalance(finalData);
+        setBalance(network, finalData);
       }
     } catch (err) {
       if (mountedRef.current) {
