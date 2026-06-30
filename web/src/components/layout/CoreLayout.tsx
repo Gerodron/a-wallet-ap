@@ -18,7 +18,7 @@ export function CoreLayout({ children }: { children: React.ReactNode }) {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
+      <div className="min-h-screen bg-bg-secondary text-text-primary flex items-center justify-center p-4">
         <main className="w-full max-w-lg animate-fade-in-up">
           {children}
         </main>
@@ -28,7 +28,7 @@ export function CoreLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row">
+    <div className="min-h-screen bg-bg-secondary text-text-primary flex flex-col md:flex-row">
       <Sidebar />
       <div className="flex-1 flex flex-col min-h-screen max-h-screen overflow-hidden">
         <Header />

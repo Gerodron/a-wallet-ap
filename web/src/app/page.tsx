@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, Button, Input } from '@/components/ui';
 import { useAuthStore } from '@/lib/store/auth-store';
 import { useWalletStore } from '@/lib/store/wallet-store';
-import { Wallet, ShieldAlert, KeyRound } from 'lucide-react';
+import { ShieldAlert, KeyRound } from 'lucide-react';
 import Link from 'next/link';
 
 export default function EntryPage() {
@@ -21,31 +21,36 @@ export default function EntryPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] gap-8 max-w-md mx-auto text-center px-4">
         <div className="flex flex-col items-center gap-3">
-          <div className="p-4 rounded-2xl bg-gradient-to-tr from-accent-primary to-accent-secondary animate-pulse-glow">
-            <Wallet size={48} className="text-white animate-float" />
+          {/* Logo Geometric shield */}
+          <div className="p-4.5 rounded-2xl bg-accent-primary animate-float flex items-center justify-center">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12 text-white">
+              <path d="M12 2L3 7v6c0 5.5 4.5 10 9 10s9-4.5 9-10V7l-9-5z" />
+              <path d="M12 8v8" />
+              <path d="M9 13h6" />
+            </svg>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight font-sans text-text-primary mt-2">
-            A-WALLET
+          <h1 className="text-3xl font-extrabold tracking-tight text-accent-primary font-sans mt-3">
+            A-Wallet
           </h1>
-          <p className="text-sm text-text-secondary leading-relaxed max-w-sm">
+          <p className="text-sm text-text-secondary leading-relaxed max-w-sm font-medium">
             Tus claves, tus tokens. Gestiona Solana, Bitcoin y BNB en una sola interfaz soberana.
           </p>
         </div>
 
-        <div className="w-full flex flex-col gap-4">
+        <div className="w-full flex flex-col gap-3">
           <Link href="/onboarding/create" className="w-full">
-            <Button variant="primary" fullWidth className="py-3.5">
+            <Button variant="primary" fullWidth className="py-3.5 shadow-sm">
               Crear Nueva Wallet
             </Button>
           </Link>
           <Link href="/onboarding/import" className="w-full">
-            <Button variant="secondary" fullWidth className="py-3.5">
+            <Button variant="outline" fullWidth className="py-3.5">
               Importar con Frase Semilla
             </Button>
           </Link>
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-text-secondary">
+        <div className="flex items-center gap-2 text-xs text-text-secondary font-semibold bg-bg-primary py-2 px-4 rounded-full border border-border">
           <ShieldAlert size={14} className="text-accent-secondary" />
           <span>Arquitectura híbrida MVC y no custodial</span>
         </div>
@@ -78,14 +83,14 @@ export default function EntryPage() {
   };
 
   return (
-    <Card className="max-w-md mx-auto p-6 md:p-8">
+    <Card className="max-w-md mx-auto p-8 border border-border shadow-md">
       <form onSubmit={handleLogin} className="flex flex-col gap-6 text-center">
         <div className="flex flex-col items-center gap-2">
-          <div className="p-3.5 rounded-xl bg-bg-tertiary border border-border">
-            <KeyRound size={28} className="text-accent-primary animate-pulse" />
+          <div className="p-3.5 rounded-xl bg-accent-light border border-border-accent">
+            <KeyRound size={26} className="text-accent-primary animate-pulse" />
           </div>
-          <h2 className="text-xl font-bold text-text-primary mt-2">Desbloquear Wallet</h2>
-          <p className="text-xs text-text-secondary">Ingrese su PIN numérico para continuar (Demo: 123456)</p>
+          <h2 className="text-xl font-bold text-accent-primary mt-2 tracking-tight">Desbloquear Wallet</h2>
+          <p className="text-xs text-text-secondary font-medium">Ingrese su PIN numérico para continuar (Demo: 123456)</p>
         </div>
 
         <Input 
@@ -100,12 +105,12 @@ export default function EntryPage() {
         />
 
         {error && (
-          <div className="p-3 rounded-lg bg-error-dim border border-error/20 text-error text-xs">
+          <div className="p-3 rounded-lg bg-error-dim border border-error/15 text-error text-xs font-semibold leading-relaxed">
             {error}
           </div>
         )}
 
-        <Button type="submit" isLoading={loading} disabled={isLocked || pin.length < 6} fullWidth>
+        <Button type="submit" isLoading={loading} disabled={isLocked || pin.length < 6} fullWidth className="shadow-sm">
           Desbloquear
         </Button>
       </form>

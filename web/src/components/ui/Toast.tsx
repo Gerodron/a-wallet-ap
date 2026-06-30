@@ -29,46 +29,32 @@ function ToastItem({ toast, onDismiss }: ToastProps) {
   }, [toast, onDismiss]);
 
   const icons = {
-    success: <CheckCircle size={20} color="var(--success)" />,
-    error: <XCircle size={20} color="var(--error)" />,
-    warning: <AlertTriangle size={20} color="var(--warning)" />,
-    info: <Info size={20} color="var(--accent-secondary)" />,
+    success: <CheckCircle size={18} className="text-success" />,
+    error: <XCircle size={18} className="text-error" />,
+    warning: <AlertTriangle size={18} className="text-warning" />,
+    info: <Info size={18} className="text-accent-secondary" />,
   };
 
   const borderColors = {
-    success: 'var(--success)',
-    error: 'var(--error)',
-    warning: 'var(--warning)',
-    info: 'var(--accent-secondary)',
+    success: 'border-l-success',
+    error: 'border-l-error',
+    warning: 'border-l-warning',
+    info: 'border-l-accent-secondary',
   };
 
   return (
     <div
-      className={isExiting ? '' : 'animate-slide-in-right'}
-      style={{
-        background: 'var(--bg-secondary)',
-        border: '1px solid var(--border)',
-        borderLeft: `3px solid ${borderColors[toast.type]}`,
-        borderRadius: 'var(--radius-md)',
-        padding: '14px 16px',
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: '12px',
-        minWidth: '320px',
-        maxWidth: '420px',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-        opacity: isExiting ? 0 : 1,
-        transform: isExiting ? 'translateX(100%)' : 'translateX(0)',
-        transition: 'all 0.3s ease',
-      }}
+      className={`flex items-start gap-3 p-4 rounded-xl border border-border bg-bg-elevated shadow-md min-w-[320px] max-w-[420px] transition-all duration-300 border-l-4 ${borderColors[toast.type]} ${
+        isExiting ? 'opacity-0 translate-x-full' : 'animate-slide-in-right'
+      }`}
     >
-      <div style={{ flexShrink: 0, marginTop: '2px' }}>{icons[toast.type]}</div>
-      <div style={{ flex: 1 }}>
-        <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+      <div className="shrink-0 mt-0.5">{icons[toast.type]}</div>
+      <div className="flex-1">
+        <div className="text-sm font-bold text-text-primary leading-tight">
           {toast.title}
         </div>
         {toast.message && (
-          <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+          <div className="text-xs text-text-secondary mt-1 leading-normal">
             {toast.message}
           </div>
         )}
@@ -78,16 +64,10 @@ function ToastItem({ toast, onDismiss }: ToastProps) {
           setIsExiting(true);
           setTimeout(() => onDismiss(toast.id), 300);
         }}
-        style={{
-          background: 'transparent',
-          border: 'none',
-          color: 'var(--text-tertiary)',
-          cursor: 'pointer',
-          padding: '2px',
-          flexShrink: 0,
-        }}
+        className="p-1 rounded-lg text-text-tertiary hover:text-text-primary hover:bg-bg-secondary transition-all cursor-pointer shrink-0"
+        aria-label="Cerrar notificación"
       >
-        <X size={16} />
+        <X size={14} />
       </button>
     </div>
   );
@@ -102,17 +82,7 @@ export function ToastContainer({ toasts, onDismiss }: ToastContainerProps) {
   if (toasts.length === 0) return null;
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: '20px',
-        right: '20px',
-        zIndex: 200,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px',
-      }}
-    >
+    <div className="fixed top-5 right-5 z-50 flex flex-col gap-2">
       {toasts.map((toast) => (
         <ToastItem key={toast.id} toast={toast} onDismiss={onDismiss} />
       ))}

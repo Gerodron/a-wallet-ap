@@ -21,7 +21,7 @@ export function BottomNav() {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-secondary/90 backdrop-blur-md border-t border-border px-4 py-2 flex items-center justify-around z-30 pb-safe-bottom">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-bg-primary border-t border-border px-2 py-2 flex items-center justify-around z-30 shadow-lg pb-safe-bottom">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = pathname === tab.href;
@@ -29,11 +29,11 @@ export function BottomNav() {
           <Link
             key={tab.href}
             href={tab.href}
-            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all duration-200
-              ${isActive ? 'text-accent-primary' : 'text-text-secondary'}`}
+            className={`flex flex-col items-center gap-1 py-1.5 px-3.5 rounded-xl transition-all duration-200 min-w-[64px]
+              ${isActive ? 'text-accent-primary bg-accent-light' : 'text-text-secondary hover:text-text-primary'}`}
           >
-            <Icon size={20} />
-            <span className="text-[9px] font-medium tracking-wide font-sans">{tab.label}</span>
+            <Icon size={18} />
+            <span className="text-[10px] font-bold tracking-wide font-sans">{tab.label}</span>
           </Link>
         );
       })}

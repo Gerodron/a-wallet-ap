@@ -31,10 +31,10 @@ export function NetworkSelector() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-tertiary border border-border hover:border-border-hover text-text-primary text-sm font-medium transition-all duration-200"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-secondary border border-border hover:bg-bg-tertiary hover:border-border-hover text-text-primary text-sm font-semibold transition-all duration-200 shadow-xs"
       >
         <span 
-          className="w-2.5 h-2.5 rounded-full shrink-0 animate-pulse" 
+          className="w-2 h-2 rounded-full shrink-0" 
           style={{ backgroundColor: activeConfig.color }}
         />
         <span>{activeConfig.name}</span>
@@ -42,8 +42,8 @@ export function NetworkSelector() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 rounded-xl bg-secondary border border-border shadow-2xl p-1.5 z-50 animate-fade-in">
-          <div className="text-[10px] text-text-secondary font-semibold font-sans px-3 py-1.5 uppercase tracking-wider">
+        <div className="absolute right-0 mt-2 w-56 rounded-xl bg-bg-primary border border-border shadow-lg p-1.5 z-50 animate-fade-in">
+          <div className="text-[10px] text-text-tertiary font-bold font-sans px-3 py-1.5 uppercase tracking-wider">
             Seleccionar Red
           </div>
           {networks.map((network) => {
@@ -56,17 +56,17 @@ export function NetworkSelector() {
                   setActiveNetwork(network);
                   setIsOpen(false);
                 }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left text-sm transition-all duration-200 hover:bg-bg-tertiary
-                  ${isSelected ? 'bg-bg-tertiary text-accent-primary font-medium' : 'text-text-primary'}`}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left text-sm transition-all duration-200 cursor-pointer
+                  ${isSelected ? 'bg-accent-light text-accent-primary font-bold' : 'text-text-primary hover:bg-bg-secondary'}`}
               >
                 <div className="flex items-center gap-3">
                   <span className="text-base font-mono" style={{ color: config.color }}>{config.icon}</span>
                   <div className="flex flex-col">
-                    <span className="text-text-primary">{config.name}</span>
+                    <span className="text-text-primary font-medium">{config.name}</span>
                     <span className="text-[10px] text-text-secondary">{config.symbol}</span>
                   </div>
                 </div>
-                {isSelected && <Check size={16} className="text-accent-primary" />}
+                {isSelected && <Check size={14} className="text-accent-primary stroke-[3]" />}
               </button>
             );
           })}

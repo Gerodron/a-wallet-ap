@@ -19,50 +19,58 @@ export function BalanceCard() {
   };
 
   return (
-    <Card variant="accent" padding="lg" className="balance-gradient-bg relative">
+    <Card variant="flat" padding="lg" className="bg-accent-primary relative text-white border border-transparent rounded-2xl shadow-xs">
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col" id="tour-step-balance">
-            <span className="text-xs text-text-secondary font-sans font-semibold uppercase tracking-wider">
+            <span className="text-[11px] text-blue-100/80 font-bold uppercase tracking-wider">
               Balance General Estimado
             </span>
-            <div className="flex items-center gap-3 mt-1">
-              <span className="text-3xl md:text-4xl font-bold font-sans tracking-tight text-text-primary">
+            <div className="flex items-center gap-3 mt-1.5">
+              <span className="text-3xl md:text-4xl font-extrabold font-sans tracking-tight text-white">
                 {isBalanceHidden ? '••••••' : formatVal(totalValueUSD)}
               </span>
               <button 
                 onClick={toggleBalanceVisibility}
-                className="btn-ghost p-1.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors"
-                aria-label={isBalanceHidden ? "Show balance" : "Hide balance"}
+                className="p-1.5 rounded-lg text-blue-100/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                aria-label={isBalanceHidden ? "Mostrar balance" : "Ocultar balance"}
               >
                 {isBalanceHidden ? <Eye size={18} /> : <EyeOff size={18} />}
               </button>
             </div>
           </div>
           
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-success/15 border border-success/30 text-success text-xs font-semibold">
-            <TrendingUp size={14} />
-            <span>+2.45% (24h)</span>
+          <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-bold leading-none">
+            <TrendingUp size={12} className="stroke-[2.5]" />
+            <span>+2.45%</span>
           </div>
         </div>
 
-        <div className="border-t border-border/50 pt-4 flex items-center justify-between">
+        <div className="border-t border-white/10 pt-5 flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-[10px] text-text-secondary uppercase tracking-widest font-semibold">
+            <span className="text-[10px] text-blue-100/80 uppercase tracking-wider font-bold">
               Balance de Red Activa
             </span>
-            <span className="text-lg font-bold font-sans text-text-primary mt-0.5">
+            <span className="text-lg font-bold font-sans text-white mt-1">
               {isBalanceHidden ? '••••••' : `${nativeValue.toFixed(4)} ${symbol}`}
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <Link href="/send" id="tour-step-send" className="btn-primary py-2 px-4 rounded-xl flex items-center gap-1.5 text-xs text-white">
-              <ArrowUpRight size={14} />
+            <Link 
+              href="/send" 
+              id="tour-step-send" 
+              className="py-2.5 px-4.5 rounded-lg flex items-center gap-1.5 text-xs bg-white text-accent-primary hover:bg-blue-50 font-bold transition-all shadow-xs cursor-pointer"
+            >
+              <ArrowUpRight size={14} className="stroke-[2.5]" />
               <span>Enviar</span>
             </Link>
-            <Link href="/receive" id="tour-step-receive" className="btn-secondary py-2 px-4 rounded-xl flex items-center gap-1.5 text-xs">
-              <ArrowDownLeft size={14} />
+            <Link 
+              href="/receive" 
+              id="tour-step-receive" 
+              className="py-2.5 px-4.5 rounded-lg flex items-center gap-1.5 text-xs bg-white/10 hover:bg-white/15 text-white border border-white/20 font-bold transition-all cursor-pointer"
+            >
+              <ArrowDownLeft size={14} className="stroke-[2.5]" />
               <span>Recibir</span>
             </Link>
           </div>

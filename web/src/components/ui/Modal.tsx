@@ -30,79 +30,45 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
   if (!isOpen) return null;
 
   const sizeMap: Record<string, string> = {
-    sm: '400px',
-    md: '500px',
-    lg: '640px',
+    sm: 'max-w-md',
+    md: 'max-w-lg',
+    lg: 'max-w-2xl',
   };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 100,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '20px',
-      }}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6">
       {/* Backdrop */}
       <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(0, 0, 0, 0.7)',
-          backdropFilter: 'blur(4px)',
-        }}
+        className="absolute inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity duration-300"
         onClick={onClose}
       />
       
       {/* Modal content */}
       <div
-        className="glass-card animate-fade-in-up"
-        style={{
-          position: 'relative',
-          width: '100%',
-          maxWidth: sizeMap[size],
-          maxHeight: '85vh',
-          overflow: 'auto',
-          padding: '24px',
-        }}
+        className={`relative w-full ${sizeMap[size]} bg-bg-elevated border border-border rounded-xl shadow-xl flex flex-col max-h-[90vh] overflow-hidden animate-fade-in-up p-6 md:p-8 z-10`}
       >
         {/* Header */}
-        {(title || true) && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: title ? '20px' : '0',
-          }}>
-            {title && (
-              <h2 style={{
-                fontSize: '1.2rem',
-                fontWeight: 700,
-                color: 'var(--text-primary)',
-              }}>
-                {title}
-              </h2>
-            )}
-            <button
-              onClick={onClose}
-              className="btn-ghost"
-              style={{
-                padding: '6px',
-                borderRadius: '8px',
-                marginLeft: 'auto',
-              }}
-              aria-label="Close modal"
-            >
-              <X size={20} />
-            </button>
-          </div>
-        )}
+        <div className="flex items-center justify-between border-b border-border pb-3.5 mb-5 shrink-0">
+          {title ? (
+            <h2 className="text-lg font-bold text-text-primary tracking-tight">
+              {title}
+            </h2>
+          ) : (
+            <div />
+          )}
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary border border-transparent hover:border-border transition-all duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary"
+            aria-label="Cerrar modal"
+          >
+            <X size={18} />
+          </button>
+        </div>
         
-        {children}
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto pr-1 -mr-1">
+          {children}
+        </div>
       </div>
     </div>
   );

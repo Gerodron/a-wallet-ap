@@ -22,60 +22,43 @@ export function Input({
 }: InputProps) {
   const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
 
+  const paddingLeftClass = icon ? 'pl-11' : '';
+  const paddingRightClass = rightElement ? 'pr-11' : '';
+  const baseInputClass = "bg-bg-input border-1.5 border-border rounded-xl py-3 px-4 text-text-primary text-sm transition-all duration-200 outline-none focus:border-accent-secondary focus:ring-3 focus:ring-accent-secondary/12 disabled:bg-bg-secondary disabled:text-text-secondary disabled:cursor-not-allowed placeholder-text-tertiary w-full";
+  const errorClass = error ? 'border-error! focus:border-error! focus:ring-error-dim!' : '';
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%' }}>
+    <div className="flex flex-col gap-1.5 w-full">
       {label && (
         <label
           htmlFor={inputId}
-          style={{
-            fontSize: '0.85rem',
-            fontWeight: 500,
-            color: 'var(--text-secondary)',
-            letterSpacing: '0.01em',
-          }}
+          className="text-[12px] font-bold text-text-secondary tracking-wide select-none"
         >
           {label}
         </label>
       )}
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+      <div className="relative flex items-center">
         {icon && (
-          <div style={{
-            position: 'absolute',
-            left: '14px',
-            color: 'var(--text-tertiary)',
-            display: 'flex',
-            alignItems: 'center',
-          }}>
+          <div className="absolute left-3.5 text-text-tertiary flex items-center pointer-events-none">
             {icon}
           </div>
         )}
         <input
           id={inputId}
-          className={`input-field ${className}`}
-          style={{
-            paddingLeft: icon ? '42px' : undefined,
-            paddingRight: rightElement ? '42px' : undefined,
-            borderColor: error ? 'var(--error)' : undefined,
-          }}
+          className={`${baseInputClass} ${paddingLeftClass} ${paddingRightClass} ${errorClass} ${className}`}
           {...props}
         />
         {rightElement && (
-          <div style={{
-            position: 'absolute',
-            right: '14px',
-            color: 'var(--text-tertiary)',
-            display: 'flex',
-            alignItems: 'center',
-          }}>
+          <div className="absolute right-3.5 text-text-tertiary flex items-center">
             {rightElement}
           </div>
         )}
       </div>
       {error && (
-        <span style={{ fontSize: '0.8rem', color: 'var(--error)' }}>{error}</span>
+        <span className="text-[11px] font-semibold text-error mt-0.5 animate-fade-in">{error}</span>
       )}
       {helperText && !error && (
-        <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>{helperText}</span>
+        <span className="text-[11px] text-text-tertiary mt-0.5">{helperText}</span>
       )}
     </div>
   );

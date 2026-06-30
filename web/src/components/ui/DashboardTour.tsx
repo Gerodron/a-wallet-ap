@@ -213,10 +213,10 @@ export function DashboardTour() {
     return (
       <button 
         onClick={handleRestart}
-        className="fixed bottom-20 right-4 md:bottom-6 md:right-6 bg-bg-tertiary hover:bg-bg-elevated border border-border hover:border-accent-primary text-text-secondary hover:text-accent-primary px-3 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-300 shadow-lg z-40 select-none"
+        className="fixed bottom-20 right-4 md:bottom-6 md:right-6 bg-bg-primary hover:bg-bg-secondary border border-border hover:border-accent-secondary text-text-secondary hover:text-accent-primary px-4 py-2.5 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all duration-200 shadow-md z-40 select-none cursor-pointer"
       >
         <HelpCircle size={14} />
-        <span className="hidden sm:inline">Guia rapida</span>
+        <span className="hidden sm:inline">Guía rápida</span>
       </button>
     );
   }
@@ -227,26 +227,26 @@ export function DashboardTour() {
     <>
       {/* Backdrop overlay */}
       <div 
-        className="fixed inset-0 bg-[#030307]/80 z-[10000] backdrop-blur-[2px] transition-opacity duration-300 pointer-events-auto"
+        className="fixed inset-0 bg-slate-900/60 z-[10000] backdrop-blur-xs transition-opacity duration-300 pointer-events-auto"
         onClick={handleSkip}
       />
 
       {/* Interactive Tooltip Card */}
       <div 
         style={tooltipStyle}
-        className="glass-card-accent p-5 md:p-6 border border-accent-primary/40 bg-bg-secondary/95 shadow-[0_12px_40px_rgba(0,217,255,0.15)] flex flex-col gap-4 animate-fade-in"
+        className="p-5 md:p-6 rounded-xl border border-border-accent bg-bg-primary shadow-xl flex flex-col gap-4 animate-fade-in"
       >
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-accent-primary">
-            <Sparkles size={16} className="animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-accent-primary/80">
+            <Sparkles size={16} className="text-accent-secondary" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-accent-secondary leading-none">
               Tutorial paso {currentStepIndex + 1} de {TOUR_STEPS.length}
             </span>
           </div>
           <button 
             onClick={handleSkip} 
-            className="text-text-tertiary hover:text-text-primary transition-colors p-1"
+            className="text-text-tertiary hover:text-text-primary transition-colors p-1 cursor-pointer"
             aria-label="Cerrar guia"
           >
             <X size={16} />
@@ -254,8 +254,8 @@ export function DashboardTour() {
         </div>
 
         {/* Content */}
-        <div className="flex flex-col gap-1.5">
-          <h4 className="text-sm font-bold text-text-primary tracking-wide">
+        <div className="flex flex-col gap-1">
+          <h4 className="text-sm font-bold text-text-primary tracking-tight">
             {step.title}
           </h4>
           <p className="text-xs text-text-secondary leading-relaxed">
@@ -264,12 +264,12 @@ export function DashboardTour() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-2 border-t border-border mt-1">
+        <div className="flex items-center justify-between pt-3 border-t border-border mt-1 shrink-0">
           <button 
             onClick={handleSkip}
-            className="text-xs text-text-tertiary hover:text-text-secondary font-medium transition-colors"
+            className="text-xs text-text-tertiary hover:text-text-secondary font-semibold transition-colors cursor-pointer"
           >
-            Saltar guia
+            Saltar guía
           </button>
           
           <div className="flex items-center gap-2">
@@ -279,7 +279,7 @@ export function DashboardTour() {
                 className="btn-secondary py-1.5 px-3 rounded-lg flex items-center gap-1 text-xs"
               >
                 <ArrowLeft size={12} />
-                <span>Atras</span>
+                <span>Atrás</span>
               </button>
             )}
             <button 
