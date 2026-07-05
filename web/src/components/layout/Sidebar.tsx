@@ -34,7 +34,6 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
       <button 
         onClick={toggleSidebar}
         aria-label="Abrir menú"
@@ -43,7 +42,6 @@ export function Sidebar() {
         {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Backdrop for mobile */}
       {isSidebarOpen && (
         <div 
           onClick={toggleSidebar}
@@ -51,13 +49,11 @@ export function Sidebar() {
         />
       )}
 
-      {/* Sidebar Container */}
       <aside 
         className={`fixed md:sticky top-0 left-0 h-screen w-64 bg-bg-primary border-r border-border z-40 transition-transform duration-300 md:transform-none flex flex-col justify-between p-6 shadow-xs
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
       >
         <div className="flex flex-col gap-8">
-          {/* Logo - Corporate Branding */}
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-accent-primary flex items-center justify-center">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white">
@@ -72,7 +68,6 @@ export function Sidebar() {
             </div>
           </div>
 
-          {/* Navigation Links */}
           <nav className="flex flex-col gap-1.5">
             {links.map((link) => {
               const Icon = link.icon;
@@ -94,7 +89,6 @@ export function Sidebar() {
           </nav>
         </div>
 
-        {/* Footer actions */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3 p-3 rounded-lg bg-bg-secondary border border-border">
             <Shield size={16} className="text-success shrink-0" />

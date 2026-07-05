@@ -1,11 +1,7 @@
 'use client';
 
 /**
- * @file Balance-fetching hook.
- *
- * Fetches the native balance for a given network + address on mount
- * and then re-fetches on a 30-second polling interval. Writes results
- * directly into the wallet store.
+ * @file Hook para consultar balances.
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -51,7 +47,6 @@ export function useBalance(
     setError(null);
 
     try {
-      // Call real API balances
       const response = await financeService.getBalances();
       
       const networkBalance = response[network] || {

@@ -15,7 +15,7 @@ export default function ImportWalletPage() {
   const { setInitialized, setAddresses } = useWallet();
   const { login } = useAuthStore();
 
-  const [step, setStep] = useState(1); // 1: Semilla, 2: PIN, 3: Done
+  const [step, setStep] = useState(1);
   const [mnemonic, setMnemonic] = useState('');
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -59,7 +59,6 @@ export default function ImportWalletPage() {
         bnb: wallets.bnb.address,
       };
 
-      // Call API register
       const response = await financeService.register({
         username: 'user_' + wallets.solana.address.slice(0, 8),
         pin: pin,
@@ -68,7 +67,6 @@ export default function ImportWalletPage() {
 
       setAddresses(payloadAddresses);
 
-      // Correct login action from Auth store with the API token
       login(response.token);
       
       setInitialized(true);
@@ -98,10 +96,8 @@ export default function ImportWalletPage() {
     return (
       <div className="mb-8 md:mb-10 px-1">
         <div className="relative flex items-center justify-between w-full">
-          {/* Background line connecting all steps */}
           <div className="absolute left-0 right-0 top-4 h-[2px] bg-slate-200 z-1" />
           
-          {/* Progress bar line */}
           <div 
             className="absolute left-0 top-4 h-[2px] bg-accent-secondary z-1 transition-all duration-300" 
             style={{ width: `${((step - 1) / 2) * 100}%` }}

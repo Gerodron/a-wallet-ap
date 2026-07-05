@@ -14,7 +14,6 @@ export function NetworkSelector() {
 
   const networks = Object.keys(NETWORK_CONFIGS) as NetworkType[];
 
-  // Close dropdown on click outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {

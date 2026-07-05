@@ -42,12 +42,10 @@ export function DashboardTour() {
   const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({});
   const pulseRingRef = useRef<HTMLDivElement | null>(null);
 
-  // Check if onboarding completed
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const completed = localStorage.getItem('wallet-onboarding-completed');
       if (!completed) {
-        // Start tour after a short delay
         const timer = setTimeout(() => {
           setCurrentStepIndex(0);
         }, 1000);
@@ -56,7 +54,6 @@ export function DashboardTour() {
     }
   }, []);
 
-  // Update highlight and tooltip position when step changes
   useEffect(() => {
     if (currentStepIndex === null) {
       cleanupActiveHighlights();
@@ -69,19 +66,15 @@ export function DashboardTour() {
     cleanupActiveHighlights();
 
     if (targetElement) {
-      // Add highlight class
       targetElement.classList.add('tour-highlight-active');
       
-      // Inject pulse ring
       const ring = document.createElement('div');
       ring.className = 'tour-pulse-ring';
       targetElement.appendChild(ring);
       pulseRingRef.current = ring;
 
-      // Scroll into view gently
       targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-      // Compute position
       const updatePosition = () => {
         const rect = targetElement.getBoundingClientRect();
         const scrollY = window.scrollY;
@@ -92,7 +85,6 @@ export function DashboardTour() {
         let newStyle: React.CSSProperties = {};
         
         if (isMobile || step.position === 'center') {
-          // Centered at bottom for mobile screens
           newStyle = {
             position: 'fixed',
             bottom: '24px',
@@ -103,7 +95,6 @@ export function DashboardTour() {
             zIndex: 10005
           };
         } else {
-          // Desktop relative positioning
           const offset = 12;
           switch (step.position) {
             case 'bottom':
@@ -143,8 +134,7 @@ export function DashboardTour() {
         setTooltipStyle(newStyle);
       };
 
-      // Run and add listener
-      setTimeout(updatePosition, 100); // Wait for scroll/render
+      setTimeout(updatePosition, 100);
       window.addEventListener('resize', updatePosition);
       window.addEventListener('scroll', updatePosition);
       return () => {
@@ -152,7 +142,6 @@ export function DashboardTour() {
         window.removeEventListener('scroll', updatePosition);
       };
     } else {
-      // Target element not found, fallback to center modal
       setTooltipStyle({
         position: 'fixed',
         top: '50%',
@@ -166,11 +155,9 @@ export function DashboardTour() {
   }, [currentStepIndex]);
 
   const cleanupActiveHighlights = () => {
-    // Remove tour classes from all elements
     document.querySelectorAll('.tour-highlight-active').forEach((el) => {
       el.classList.remove('tour-highlight-active');
     });
-    // Remove existing pulse rings
     document.querySelectorAll('.tour-pulse-ring').forEach((el) => {
       el.remove();
     });
@@ -209,7 +196,6 @@ export function DashboardTour() {
   };
 
   if (currentStepIndex === null) {
-    // Return a subtle help button to restart guide anytime
     return (
       <button 
         onClick={handleRestart}
@@ -225,18 +211,15 @@ export function DashboardTour() {
 
   return (
     <>
-      {/* Backdrop overlay */}
       <div 
         className="fixed inset-0 bg-slate-900/60 z-[10000] backdrop-blur-xs transition-opacity duration-300 pointer-events-auto"
         onClick={handleSkip}
       />
 
-      {/* Interactive Tooltip Card */}
       <div 
         style={tooltipStyle}
         className="p-5 md:p-6 rounded-xl border border-border-accent bg-bg-primary shadow-xl flex flex-col gap-4 animate-fade-in"
       >
-        {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-accent-primary">
             <Sparkles size={16} className="text-accent-secondary" />
@@ -253,7 +236,6 @@ export function DashboardTour() {
           </button>
         </div>
 
-        {/* Content */}
         <div className="flex flex-col gap-1">
           <h4 className="text-sm font-bold text-text-primary tracking-tight">
             {step.title}
@@ -263,7 +245,6 @@ export function DashboardTour() {
           </p>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex items-center justify-between pt-3 border-t border-border mt-1 shrink-0">
           <button 
             onClick={handleSkip}

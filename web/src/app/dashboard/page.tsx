@@ -21,7 +21,6 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Portfolio Overview */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-text-primary tracking-tight font-sans">Mi Portafolio</h2>
@@ -39,9 +38,7 @@ export default function Dashboard() {
 
       <BalanceCard />
 
-      {/* KPI Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* KPI 1: Active Network */}
         <Card className="flex items-center gap-4 border border-border bg-bg-primary shadow-xs">
           <div className="p-3 rounded-xl bg-accent-light text-accent-primary">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -56,7 +53,6 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* KPI 2: Security Status */}
         <Card className="flex items-center gap-4 border border-border bg-bg-primary shadow-xs">
           <div className="p-3 rounded-xl bg-success-dim text-success border border-[#059669]/10">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -69,7 +65,6 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* KPI 3: Token count */}
         <Card className="flex items-center gap-4 border border-border bg-bg-primary shadow-xs">
           <div className="p-3 rounded-xl bg-warning-dim text-warning border border-[#D97706]/10">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -83,7 +78,6 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Tokens List / Activity Section */}
       <div id="tour-step-history" className="flex flex-col gap-3 transition-all duration-300">
         <div className="flex items-center gap-2 px-1">
           <Layers size={14} className="text-text-secondary" />
@@ -101,7 +95,6 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Onboarding Tour Component */}
       <DashboardTour />
     </div>
   );

@@ -1,31 +1,18 @@
 'use client';
 
 /**
- * @file UI Zustand store.
- *
- * Manages ephemeral UI state: sidebar visibility, toast notification queue,
- * and the currently open modal. Nothing here is persisted — it resets on
- * every page load.
+ * @file Estado de la interfaz de usuario.
  */
 
 import { create } from 'zustand';
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
 export type NotificationType = 'success' | 'error' | 'warning' | 'info';
 
 export interface Notification {
-  /** Unique identifier (generated on creation). */
   id: string;
-  /** Variant — drives icon & colour in the toast component. */
   type: NotificationType;
-  /** Headline. */
   title: string;
-  /** Optional longer description. */
   message?: string;
-  /** Auto-dismiss delay in ms (default: 5 000). */
   duration?: number;
 }
 
@@ -37,19 +24,11 @@ export type ModalType =
   | 'network-select'
   | null;
 
-// ---------------------------------------------------------------------------
-// State shape
-// ---------------------------------------------------------------------------
-
 interface UIState {
-  /** Whether the sidebar / navigation drawer is open. */
   isSidebarOpen: boolean;
-  /** FIFO queue of toast notifications. */
   notifications: Notification[];
-  /** Currently visible modal (null = none). */
   currentModal: ModalType;
 
-  // — Actions —
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
   addNotification: (n: Omit<Notification, 'id'>) => void;
@@ -58,17 +37,8 @@ interface UIState {
   setModal: (modal: ModalType) => void;
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 let _notifCounter = 0;
-/** Generate a monotonically-increasing notification ID. */
 const nextId = () => `notif-${++_notifCounter}-${Date.now()}`;
-
-// ---------------------------------------------------------------------------
-// Store
-// ---------------------------------------------------------------------------
 
 export const useUIStore = create<UIState>()((set) => ({
   isSidebarOpen: false,
@@ -97,10 +67,6 @@ export const useUIStore = create<UIState>()((set) => ({
 
   setModal: (modal) => set({ currentModal: modal }),
 }));
-
-// ---------------------------------------------------------------------------
-// Selectors
-// ---------------------------------------------------------------------------
 
 export const selectIsSidebarOpen = (s: UIState) => s.isSidebarOpen;
 export const selectNotifications = (s: UIState) => s.notifications;

@@ -1,23 +1,14 @@
 'use client';
 
 /**
- * @file Main wallet hook.
- *
- * Provides a convenient, component-friendly interface that combines
- * the wallet store state with derived values and common operations.
- * Components should prefer this hook over importing the raw store
- * so that selector patterns remain centralised.
+ * @file Hook principal de la wallet.
  */
 
 import { useMemo, useCallback } from 'react';
 import { useWalletStore } from '@/lib/store/wallet-store';
 import type { NetworkType } from '@/lib/types/wallet';
 
-/**
- * All-in-one wallet hook for React components.
- */
 export function useWallet() {
-  // — Raw store slices (each selector keeps referential identity) —
   const isInitialized = useWalletStore((s) => s.isInitialized);
   const activeNetwork = useWalletStore((s) => s.activeNetwork);
   const addresses = useWalletStore((s) => s.addresses);
@@ -27,7 +18,6 @@ export function useWallet() {
   const isBalanceHidden = useWalletStore((s) => s.isBalanceHidden);
   const isLoadingBalances = useWalletStore((s) => s.isLoadingBalances);
 
-  // — Actions (stable references) —
   const setActiveNetwork = useWalletStore((s) => s.setActiveNetwork);
   const toggleBalanceVisibility = useWalletStore((s) => s.toggleBalanceVisibility);
   const setAddresses = useWalletStore((s) => s.setAddresses);
@@ -35,7 +25,6 @@ export function useWallet() {
   const setInitialized = useWalletStore((s) => s.setInitialized);
   const setLoadingBalances = useWalletStore((s) => s.setLoadingBalances);
 
-  // — Derived values —
   const activeAddress = addresses[activeNetwork];
   const activeBalance = balances[activeNetwork];
   const activeTokens = useMemo(
@@ -76,14 +65,13 @@ export function useWallet() {
         }
       });
     } catch {
-      // silently swallow — balance card shows stale data with visual indicator
+      // Error silencioso, la interfaz mostrará datos anteriores
     } finally {
       setLoadingBalances(false);
     }
   }, [setLoadingBalances]);
 
   return {
-    // State
     isInitialized,
     activeNetwork,
     addresses,
@@ -92,15 +80,11 @@ export function useWallet() {
     totalValueUSD,
     isBalanceHidden,
     isLoadingBalances,
-
-    // Derived
     activeAddress,
     activeBalance,
     activeTokens,
     displayBalance,
     displayUSD,
-
-    // Actions
     switchNetwork,
     toggleBalanceVisibility,
     setAddresses,

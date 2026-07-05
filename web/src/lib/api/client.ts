@@ -1,25 +1,11 @@
 /**
- * @file API client — thin `fetch` wrapper with JWT injection and typed errors.
- *
- * Usage:
- * ```ts
- * import { api } from '@/lib/api/client';
- * const data = await api.get<Balance[]>('/wallets/balances');
- * ```
- *
- * The base URL is read from `NEXT_PUBLIC_API_URL`.
- * The JWT is read from the in-memory auth store on every request.
+ * @file Cliente API.
  */
 
 import { useAuthStore } from '@/lib/store/auth-store';
 import type { ApiResponse, ApiError } from '@/lib/types/api';
 
-// ---------------------------------------------------------------------------
-// Config
-// ---------------------------------------------------------------------------
-
 const getBaseUrl = (): string => {
-  // Check build-time env var
   if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_URL) {
     let url = process.env.NEXT_PUBLIC_API_URL;
     if (!url.endsWith('/api')) {
@@ -28,7 +14,6 @@ const getBaseUrl = (): string => {
     return url;
   }
 
-  // Detect dynamically based on browser URL
   if (typeof window !== 'undefined') {
     return `${window.location.protocol}//${window.location.hostname}:8080/api`;
   }
@@ -37,10 +22,6 @@ const getBaseUrl = (): string => {
 };
 
 const BASE_URL = getBaseUrl();
-
-// ---------------------------------------------------------------------------
-// Custom error class
-// ---------------------------------------------------------------------------
 
 export class ApiClientError extends Error {
   public readonly code: string;
@@ -56,20 +37,12 @@ export class ApiClientError extends Error {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Build headers, injecting the Bearer token when available.
- */
 function buildHeaders(custom?: HeadersInit): Headers {
   const headers = new Headers(custom);
   if (!headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json');
   }
 
-  // Read JWT directly from in-memory store (never from localStorage)
   const token = useAuthStore.getState().jwtToken;
   if (token) {
     headers.set('Authorization', `Bearer ${token}`);
@@ -77,11 +50,6 @@ function buildHeaders(custom?: HeadersInit): Headers {
   return headers;
 }
 
-/**
- * Execute a fetch request and return the parsed JSON body.
- * Throws {@link ApiClientError} for non-2xx responses that include a
- * structured error payload, or a plain `Error` otherwise.
- */
 async function request<T>(
   path: string,
   init?: RequestInit,
@@ -93,12 +61,11 @@ async function request<T>(
     headers: buildHeaders(init?.headers),
   });
 
-  // Attempt to parse JSON regardless of status code
   let body: ApiResponse<T> | null = null;
   try {
     body = (await res.json()) as ApiResponse<T>;
   } catch {
-    /* response may have no body (e.g. 204) */
+    // Ignorado
   }
 
   if (!res.ok) {
@@ -108,7 +75,6 @@ async function request<T>(
     throw new Error(`HTTP ${res.status}: ${res.statusText}`);
   }
 
-  // For 204 No Content, return undefined cast to T
   if (res.status === 204 || !body) {
     return undefined as unknown as T;
   }
@@ -117,28 +83,14 @@ async function request<T>(
     return body.data;
   }
 
-  // Should not reach here, but handle gracefully
   throw new ApiClientError(body.error);
 }
 
-// ---------------------------------------------------------------------------
-// Public API
-// ---------------------------------------------------------------------------
-
 export const api = {
-  /**
-   * HTTP GET.
-   * @param path - URL path appended to the base URL (e.g. `/wallets/balances`).
-   */
   get<T>(path: string, init?: RequestInit): Promise<T> {
     return request<T>(path, { ...init, method: 'GET' });
   },
 
-  /**
-   * HTTP POST.
-   * @param path - URL path.
-   * @param body - JSON-serialisable body.
-   */
   post<T>(path: string, body?: unknown, init?: RequestInit): Promise<T> {
     return request<T>(path, {
       ...init,
@@ -147,11 +99,6 @@ export const api = {
     });
   },
 
-  /**
-   * HTTP PUT.
-   * @param path - URL path.
-   * @param body - JSON-serialisable body.
-   */
   put<T>(path: string, body?: unknown, init?: RequestInit): Promise<T> {
     return request<T>(path, {
       ...init,
@@ -160,10 +107,6 @@ export const api = {
     });
   },
 
-  /**
-   * HTTP DELETE.
-   * @param path - URL path.
-   */
   delete<T>(path: string, init?: RequestInit): Promise<T> {
     return request<T>(path, { ...init, method: 'DELETE' });
   },

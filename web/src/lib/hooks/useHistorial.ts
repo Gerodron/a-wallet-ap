@@ -1,16 +1,9 @@
 /**
- * @file Transaction history hook.
- *
- * Fetches paginated transaction history from the real API backend.
- * Manages loading, error and data states automatically.
+ * @file Hook para consultar historial de transacciones.
  */
 
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '@/lib/api/client';
-
-// ---------------------------------------------------------------------------
-// Types (matching TransaccionHistorialDto and GetHistorialResponseDto)
-// ---------------------------------------------------------------------------
 
 export interface TransaccionHistorial {
   transaccionId: string;
@@ -44,10 +37,6 @@ interface UseHistorialReturn {
   error: string | null;
   refetch: () => void;
 }
-
-// ---------------------------------------------------------------------------
-// Hook
-// ---------------------------------------------------------------------------
 
 export function useHistorial(opts: UseHistorialOptions = {}): UseHistorialReturn {
   const { network, page = 1, pageSize = 20, enabled = true } = opts;

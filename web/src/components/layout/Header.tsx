@@ -57,10 +57,8 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Network Selector */}
         <NetworkSelector />
 
-        {/* Alerts & Notifications (Mock) */}
         <button 
           aria-label="Notificaciones"
           className="p-2 rounded-lg hover:bg-bg-secondary text-text-secondary hover:text-text-primary transition-colors duration-200 relative shrink-0 border border-transparent hover:border-border"

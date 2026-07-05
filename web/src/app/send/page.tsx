@@ -8,9 +8,6 @@ import { Send, AlertTriangle, Check, Copy, ShieldCheck, ArrowRight, ExternalLink
 import { NETWORK_CONFIGS } from '@/lib/types/network';
 import { financeService } from '@/lib/api/financeService';
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 const formatTruncatedString = (str: string, front = 8, back = 6) =>
   str.length > front + back + 4 ? `${str.slice(0, front)}...${str.slice(-back)}` : str;
 
@@ -18,7 +15,6 @@ export default function SendPage() {
   const { activeNetwork, balances, addresses } = useWallet();
   const currentNetworkConfig = NETWORK_CONFIGS[activeNetwork];
   
-  // State
   const [recipientAddress, setRecipientAddress] = useState('');
   const [sendAmount, setSendAmount]             = useState('');
   const [securityPin, setSecurityPin]           = useState('');
@@ -28,14 +24,10 @@ export default function SendPage() {
   const [isProcessing, setIsProcessing]         = useState(false);
   const [isCopied, setIsCopied]                 = useState(false);
 
-  // Derived data
   const availableBalance = balances[activeNetwork]?.native || 0;
   const estimatedFee     = currentNetworkConfig.symbol === 'BTC' ? '0.00025' : currentNetworkConfig.symbol === 'BNB' ? '0.0012' : '0.000005';
   const totalEstimated   = (parseFloat(sendAmount || '0') + parseFloat(estimatedFee)).toFixed(6);
 
-  // ---------------------------------------------------------------------------
-  // Event Handlers
-  // ---------------------------------------------------------------------------
   const handleValidateForm = () => {
     setErrorMessage('');
     
@@ -54,7 +46,7 @@ export default function SendPage() {
       return setErrorMessage('Saldo insuficiente.');
     }
     
-    setCurrentStep(2); // Proceed to confirmation sheet
+    setCurrentStep(2);
   };
 
   const handleConfirmTransfer = useCallback(async () => {
@@ -75,7 +67,7 @@ export default function SendPage() {
       });
       
       setTransactionHash(response.txHash);
-      setCurrentStep(3); // Proceed to success screen
+      setCurrentStep(3);
     } catch (err: unknown) {
       setErrorMessage(err instanceof Error ? err.message : 'Error al procesar la transferencia.');
     } finally {
@@ -106,7 +98,6 @@ export default function SendPage() {
 
   return (
     <div className="flex flex-col gap-6 py-4">
-      {/* ── Page Header ── */}
       <div>
         <h2 className="text-xl font-bold text-text-primary">Enviar Fondos</h2>
         <p className="text-xs text-text-secondary mt-0.5">
@@ -116,7 +107,6 @@ export default function SendPage() {
 
       <Card className="max-w-md mx-auto border border-border bg-bg-primary shadow-xs p-6 md:p-8">
         
-        {/* ── Step Indicator (Only show for Step 1 and 2) ── */}
         {currentStep !== 3 && (
           <div className="mb-6 px-1 animate-fade-in">
             <div className="relative flex items-center justify-between w-full">
@@ -139,7 +129,6 @@ export default function SendPage() {
           </div>
         )}
 
-        {/* ── Step 1: Input Form ── */}
         {currentStep === 1 && (
           <div className="flex flex-col gap-5 animate-fade-in">
             <div className="flex items-center gap-2.5 pb-2 border-b border-border">
@@ -193,7 +182,6 @@ export default function SendPage() {
           </div>
         )}
 
-        {/* ── Step 3: Success Screen ── */}
         {currentStep === 3 && (
           <div className="flex flex-col items-center text-center gap-6 py-4 animate-fade-in">
             <div className="relative animate-scale-in">
@@ -255,11 +243,9 @@ export default function SendPage() {
         )}
       </Card>
 
-      {/* ── Step 2: Confirmation Sheet (Full screen on mobile, Modal on desktop) ── */}
       {currentStep === 2 && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg-primary sm:bg-black/40 sm:backdrop-blur-sm transition-all duration-300">
           
-          {/* Invisible backdrop click area for desktop */}
           <div 
             className="hidden sm:block absolute inset-0 z-0" 
             onClick={() => { setCurrentStep(1); setErrorMessage(''); }} 

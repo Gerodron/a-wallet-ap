@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-/* ===== DESIGN TOKENS ===== */
+/* ===== TOKENS DE DISEÑO ===== */
 :root {
   --bg-primary: #FFFFFF;
   --bg-secondary: #F8FAFC;
@@ -9,24 +9,15 @@
   --bg-elevated: #FFFFFF;
   --bg-input: #FFFFFF;
 
-  /* Base del nuevo azul marino: Profundo, elegante y con excelente legibilidad */
+  /* Colores principales */
   --accent-primary: #0A1B3F;
-
-  /* Un tono más vibrante pero dentro de la gama para botones secundarios o resaltados */
   --accent-secondary: #173673;
-
-  /* Azul marino extra oscuro, ideal para contrastes fuertes o textos principales */
   --accent-navy: #050D1F;
-
-  /* Un fondo ultra claro con un levísimo tinte azul para estados "hover" o fondos de inputs */
   --accent-light: #F0F4F8;
-
-  /* Mantenemos el estilo minimalista usando el color principal sin gradientes reales */
   --accent-gradient: #0A1B3F;
-
-  /* Un tono ligeramente más oscuro que el primary para el estado "hover" de los botones principales */
   --accent-gradient-hover: #071229;
 
+  /* Estados */
   --success: #059669;
   --success-dim: #ECFDF5;
   --error: #DC2626;
@@ -35,26 +26,25 @@
   --warning-dim: #FFFBEB;
   --pending: #D97706;
 
+  /* Tipografía */
   --text-primary: #0F172A;
-  /* Almost black navy for high readability */
   --text-secondary: #334155;
-  /* Dark slate for secondary text (not light grey) */
   --text-tertiary: #64748B;
-  /* Intermediate slate */
   --text-accent: #002855;
-  /* Accent text */
 
+  /* Bordes */
   --border: #E2E8F0;
   --border-hover: #CBD5E1;
   --border-accent: #002855;
 
+  /* Radios */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
   --radius-full: 9999px;
 
-  /* Network colors */
+  /* Colores de redes cripto */
   --color-solana: #9945FF;
   --color-bitcoin: #F7931A;
   --color-bnb: #F0B90B;
@@ -88,10 +78,9 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* ===== BASE STYLES ===== */
+/* ===== ESTILOS BASE ===== */
 * {
   box-sizing: border-box;
-
 }
 
 html {
@@ -108,13 +97,13 @@ body {
   overflow-x: hidden;
 }
 
-/* Accessibility Focus Ring */
+/* Foco de accesibilidad */
 *:focus-visible {
   outline: 2px solid var(--accent-secondary);
   outline-offset: 2px;
 }
 
-/* ===== SCROLLBAR ===== */
+/* ===== BARRA DE DESPLAZAMIENTO ===== */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -134,7 +123,7 @@ body {
   background: var(--text-secondary);
 }
 
-/* ===== ANIMATIONS ===== */
+/* ===== ANIMACIONES ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -184,7 +173,6 @@ body {
 }
 
 @keyframes pulse-glow {
-
   0%,
   100% {
     box-shadow: 0 0 12px rgba(0, 61, 165, 0.08);
@@ -216,7 +204,6 @@ body {
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0px);
@@ -307,6 +294,7 @@ body {
   }
 }
 
+/* ===== CLASES DE ANIMACIÓN ===== */
 .animate-fade-in {
   animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -367,7 +355,7 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
-/* ===== STAGGER ANIMATIONS ===== */
+/* ===== ANIMACIONES ESCALONADAS ===== */
 .stagger-1 {
   animation-delay: 0.04s;
 }
@@ -392,7 +380,7 @@ body {
   animation-delay: 0.24s;
 }
 
-/* ===== INTERACTIVE ONBOARDING TOUR HIGHLIGHTS (Dynamic classes called via classList) ===== */
+/* ===== HIGHLIGHTS DEL TOUR DE ONBOARDING ===== */
 .tour-highlight-active {
   position: relative !important;
   z-index: 10001 !important;
@@ -430,7 +418,7 @@ body {
   }
 }
 
-/* ===== CUSTOM CORPORATE UTILITIES ===== */
+/* ===== UTILIDADES PERSONALIZADAS ===== */
 @utility btn-primary {
   background-color: var(--accent-primary);
   color: #FFFFFF;

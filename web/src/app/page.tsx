@@ -17,12 +17,10 @@ export default function EntryPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // If wallet is not initialized, show onboarding CTAs
   if (!isInitialized) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[85vh] gap-8 max-w-md mx-auto text-center px-4 py-6">
         <div className="flex flex-col items-center gap-4">
-          {/* Logo Geometric shield */}
           <div className="p-4 rounded-xl bg-accent-primary animate-float flex items-center justify-center shadow-xs">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10 text-white">
               <path d="M12 2L3 7v6c0 5.5 4.5 10 9 10s9-4.5 9-10V7l-9-5z" />

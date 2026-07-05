@@ -14,9 +14,6 @@ interface TokenListProps {
 export function TokenList({ tokens }: TokenListProps) {
   const { isBalanceHidden } = useWallet();
 
-  // ---------------------------------------------------------------------------
-  // Empty State Early Return
-  // ---------------------------------------------------------------------------
   if (tokens.length === 0) {
     return (
       <Card padding="lg" className="flex flex-col items-center justify-center text-center p-8 border border-border bg-bg-primary shadow-xs">
@@ -27,16 +24,13 @@ export function TokenList({ tokens }: TokenListProps) {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Data Render
-  // ---------------------------------------------------------------------------
   return (
     <Card padding="none" className="overflow-hidden border border-border bg-bg-primary shadow-xs">
       <div className="divide-y divide-border">
         {tokens.map((token) => {
           const currentNetworkConfig = NETWORK_CONFIGS[token.network];
           
-          let logoClasses = 'bg-[#F0B90B]/10 border-[#F0B90B]/20 text-[#926B00]'; // Default (BNB)
+          let logoClasses = 'bg-[#F0B90B]/10 border-[#F0B90B]/20 text-[#926B00]';
           if (token.network === 'solana') {
             logoClasses = 'bg-[#9945FF]/10 border-[#9945FF]/20 text-[#7A22E0]';
           } else if (token.network === 'bitcoin') {
@@ -49,7 +43,6 @@ export function TokenList({ tokens }: TokenListProps) {
               className="flex items-center justify-between p-4.5 hover:bg-bg-secondary transition-all duration-200 cursor-pointer"
             >
               <div className="flex items-center gap-3">
-                {/* Logo slot */}
                 <div 
                   className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-base font-bold border shrink-0 ${logoClasses}`}
                 >

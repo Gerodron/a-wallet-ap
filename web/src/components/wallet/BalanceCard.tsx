@@ -16,9 +16,6 @@ export function BalanceCard() {
     isLoadingBalances
   } = useWallet();
 
-  // ---------------------------------------------------------------------------
-  // Early return for Loading State (Flattened skeleton)
-  // ---------------------------------------------------------------------------
   if (isLoadingBalances) {
     return (
       <div
@@ -56,9 +53,6 @@ export function BalanceCard() {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Data State
-  // ---------------------------------------------------------------------------
   const activeBalance = balances[activeNetwork];
   const nativeValue  = activeBalance?.native || 0;
   const symbol       = activeBalance?.nativeSymbol || 'SOL';
@@ -73,7 +67,6 @@ export function BalanceCard() {
       className="relative text-white border border-transparent rounded-2xl shadow-md overflow-hidden transition-all duration-300"
       style={{ backgroundColor: '#002855' }}
     >
-      {/* subtle gradient sheen */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{
@@ -82,7 +75,6 @@ export function BalanceCard() {
       />
 
       <div className="relative flex flex-col gap-6">
-        {/* Top row */}
         <div className="flex items-start justify-between">
           <div className="flex flex-col" id="tour-step-balance">
             <span className="text-[11px] text-blue-100/75 font-semibold uppercase tracking-widest select-none">
@@ -102,13 +94,11 @@ export function BalanceCard() {
             </div>
           </div>
 
-          {/* Network badge */}
           <span className="text-[10px] font-bold text-blue-100/60 uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/10 bg-white/5 select-none whitespace-nowrap">
             {activeNetwork === 'solana' ? 'Solana' : activeNetwork === 'bitcoin' ? 'Bitcoin' : 'BNB Chain'}
           </span>
         </div>
 
-        {/* Bottom row */}
         <div className="border-t border-white/10 pt-5 flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-[10px] text-blue-100/70 uppercase tracking-wider font-semibold select-none">

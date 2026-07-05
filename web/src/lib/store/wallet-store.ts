@@ -1,25 +1,12 @@
 'use client';
 
 /**
- * @file Main wallet Zustand store.
- *
- * Holds addresses, balances, token list, active network, and UI preferences.
- * Only non-sensitive, non-volatile data is persisted to localStorage:
- *   - activeNetwork
- *   - isBalanceHidden
- *   - addresses (public keys — not secrets)
- *
- * Balances and tokens are kept in-memory only because they are fetched
- * fresh on every session start.
+ * @file Estado global de la wallet (Zustand).
  */
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { NetworkType, Balance, Token } from '@/lib/types/wallet';
-
-// ---------------------------------------------------------------------------
-// State shape
-// ---------------------------------------------------------------------------
 
 interface WalletState {
   isInitialized: boolean;
@@ -31,7 +18,6 @@ interface WalletState {
   isBalanceHidden: boolean;
   isLoadingBalances: boolean;
 
-  // Actions
   setInitialized: (value: boolean) => void;
   setActiveNetwork: (network: NetworkType) => void;
   setAddresses: (addresses: Record<NetworkType, string>) => void;
@@ -42,10 +28,6 @@ interface WalletState {
   setLoadingBalances: (loading: boolean) => void;
   reset: () => void;
 }
-
-// ---------------------------------------------------------------------------
-// Defaults
-// ---------------------------------------------------------------------------
 
 const DEFAULT_BALANCE: Balance = { native: 0, nativeSymbol: '', nativeUSD: 0, tokens: [] };
 
@@ -64,35 +46,22 @@ const INITIAL_STATE = {
   isLoadingBalances: false,
 };
 
-// ---------------------------------------------------------------------------
-// Store
-// ---------------------------------------------------------------------------
-
 export const useWalletStore = create<WalletState>()(
   persist(
     (set) => ({
       ...INITIAL_STATE,
-
       setInitialized: (value) => set({ isInitialized: value }),
-
       setActiveNetwork: (network) => set({ activeNetwork: network }),
-
       setAddresses: (addresses) => set({ addresses }),
-
       setBalance: (network, balance) =>
         set((state) => ({
           balances: { ...state.balances, [network]: balance },
         })),
-
       setTokens: (tokens) => set({ tokens }),
-
       setTotalValueUSD: (value) => set({ totalValueUSD: value }),
-
       toggleBalanceVisibility: () =>
         set((state) => ({ isBalanceHidden: !state.isBalanceHidden })),
-
       setLoadingBalances: (loading) => set({ isLoadingBalances: loading }),
-
       reset: () => set(INITIAL_STATE),
     }),
     {
@@ -106,10 +75,6 @@ export const useWalletStore = create<WalletState>()(
     },
   ),
 );
-
-// ---------------------------------------------------------------------------
-// Selectors (prevent unnecessary re-renders)
-// ---------------------------------------------------------------------------
 
 export const selectActiveNetwork = (s: WalletState) => s.activeNetwork;
 export const selectActiveBalance = (s: WalletState) => s.balances[s.activeNetwork];
