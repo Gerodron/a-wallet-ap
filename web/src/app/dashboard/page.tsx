@@ -5,34 +5,13 @@ import { BalanceCard } from '@/components/wallet/BalanceCard';
 import { TokenList } from '@/components/wallet/TokenList';
 import { Card, Spinner, DashboardTour } from '@/components/ui';
 import { useWallet } from '@/lib/hooks/useWallet';
-import { useBalance } from '@/lib/hooks/useBalance';
-import { TrendingUp, RefreshCw, Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
 
 export default function Dashboard() {
-  const { tokens, isLoadingBalances, refreshBalances, activeNetwork, addresses } = useWallet();
-
-  const address = addresses[activeNetwork] || '';
-  const { refetch, isLoading: isRefetching } = useBalance(activeNetwork, address);
-
-  const handleRefresh = async () => {
-    await refreshBalances();
-    refetch();
-  };
+  const { tokens, isLoadingBalances, activeNetwork } = useWallet();
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-end">
-
-        <button 
-          onClick={handleRefresh}
-          className="btn-secondary py-1.5 px-3.5 rounded-lg flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary select-none shrink-0 cursor-pointer hover:bg-bg-tertiary transition-all"
-          disabled={isLoadingBalances || isRefetching}
-        >
-          <RefreshCw size={12} className={isLoadingBalances || isRefetching ? 'animate-spin' : ''} />
-          <span>Actualizar</span>
-        </button>
-      </div>
-
+    <div className="flex flex-col gap-6 py-4">
       <BalanceCard />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

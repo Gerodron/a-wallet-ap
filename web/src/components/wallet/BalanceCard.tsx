@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { useWallet } from '@/lib/hooks/useWallet';
+import { useBalance } from '@/lib/hooks/useBalance';
 import { Card } from '@/components/ui';
-import { Eye, EyeOff, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import { Eye, EyeOff, ArrowUpRight, ArrowDownLeft, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 
 export function BalanceCard() {
@@ -12,9 +13,19 @@ export function BalanceCard() {
     isBalanceHidden,
     toggleBalanceVisibility,
     activeNetwork,
+    addresses,
     balances,
-    isLoadingBalances
+    isLoadingBalances,
+    refreshBalances
   } = useWallet();
+
+  const address = addresses[activeNetwork] || '';
+  const { refetch, isLoading: isRefetching } = useBalance(activeNetwork, address);
+
+  const handleRefresh = async () => {
+    await refreshBalances();
+    refetch();
+  };
 
   if (isLoadingBalances) {
     return (
@@ -84,13 +95,25 @@ export function BalanceCard() {
               <span className="text-3xl md:text-4xl font-extrabold font-sans tracking-tight text-white leading-none">
                 {isBalanceHidden ? '••••••' : formatUSD(totalValueUSD)}
               </span>
-              <button
-                onClick={toggleBalanceVisibility}
-                className="p-1.5 rounded-lg text-blue-200/60 hover:text-white hover:bg-white/10 transition-all duration-200 cursor-pointer"
-                aria-label={isBalanceHidden ? 'Mostrar balance' : 'Ocultar balance'}
-              >
-                {isBalanceHidden ? <Eye size={17} /> : <EyeOff size={17} />}
-              </button>
+              <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+                <button
+                  onClick={toggleBalanceVisibility}
+                  className="p-1.5 rounded-lg text-blue-200/60 hover:text-white hover:bg-white/10 transition-all duration-200 cursor-pointer"
+                  aria-label={isBalanceHidden ? 'Mostrar balance' : 'Ocultar balance'}
+                  title="Visibilidad"
+                >
+                  {isBalanceHidden ? <Eye size={16} /> : <EyeOff size={16} />}
+                </button>
+                <div className="w-[1px] h-4 bg-white/10" />
+                <button
+                  onClick={handleRefresh}
+                  disabled={isLoadingBalances || isRefetching}
+                  className="p-1.5 rounded-lg text-blue-200/60 hover:text-white hover:bg-white/10 transition-all duration-200 cursor-pointer disabled:opacity-50"
+                  title="Actualizar balance"
+                >
+                  <RefreshCw size={15} className={isLoadingBalances || isRefetching ? 'animate-spin text-white' : ''} />
+                </button>
+              </div>
             </div>
           </div>
 

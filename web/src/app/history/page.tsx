@@ -3,7 +3,6 @@
 import React from 'react';
 import { Card } from '@/components/ui';
 import {
-  History,
   ExternalLink,
   ArrowUpRight,
   AlertCircle,
@@ -22,9 +21,6 @@ export default function HistoryPage() {
     network: activeNetwork,
   });
 
-  // ---------------------------------------------------------------------------
-  // View State Resolution (Clean Code approach to avoid nested JSX conditionals)
-  // ---------------------------------------------------------------------------
   let pageContent = null;
 
   if (isLoading) {
@@ -92,7 +88,6 @@ export default function HistoryPage() {
               key={transaction.txHash}
               className="tx-row flex items-center justify-between p-4 hover:bg-bg-secondary/50 transition-colors"
             >
-              {/* Left: icon + label */}
               <div className="flex items-center gap-3">
                 <div
                   className={`w-9 h-9 rounded-xl flex items-center justify-center border shrink-0 ${
@@ -119,7 +114,6 @@ export default function HistoryPage() {
                 </div>
               </div>
 
-              {/* Right: amount + explorer link */}
               <div className="flex items-center gap-4">
                 <div className="flex flex-col items-end">
                   <span
@@ -151,25 +145,20 @@ export default function HistoryPage() {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Main Render
-  // ---------------------------------------------------------------------------
   return (
-    <div className="flex flex-col gap-6">
-      {/* Header */}
-      <div className="flex items-center justify-end">        <button
-          onClick={refetch}
-          disabled={isLoading}
-          className="btn-secondary py-1.5 px-3.5 rounded-lg flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary select-none shrink-0 cursor-pointer hover:bg-bg-tertiary transition-all disabled:opacity-50"
-          title="Actualizar historial"
-        >
-          <RefreshCw size={12} className={isLoading ? 'animate-spin' : ''} />
-          <span>Actualizar</span>
-        </button>
-      </div>
-
-      {/* Card Wrapper */}
+    <div className="flex flex-col gap-6 py-4">
       <Card padding="none" className="overflow-hidden border border-border bg-bg-primary shadow-xs">
+        <div className="flex items-center justify-between p-4 border-b border-border bg-bg-secondary/40">
+          <span className="text-sm font-bold text-text-primary tracking-tight">Movimientos Recientes</span>
+          <button
+            onClick={refetch}
+            disabled={isLoading}
+            className="p-2 rounded-lg text-text-tertiary hover:text-accent-primary hover:bg-bg-tertiary transition-all disabled:opacity-50 cursor-pointer"
+            title="Actualizar historial"
+          >
+            <RefreshCw size={15} className={isLoading ? 'animate-spin' : ''} />
+          </button>
+        </div>
         {pageContent}
       </Card>
     </div>
