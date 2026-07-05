@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, ArrowLeft, X, Sparkles, HelpCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, X, Sparkles, HelpCircle, Wallet, Send, QrCode, History, Settings, ShieldCheck } from 'lucide-react';
 
 interface TourStep {
   targetId: string;
+  mobileTargetId?: string;
   title: string;
+  icon: React.ElementType;
   description: string;
   position: 'bottom' | 'top' | 'left' | 'right' | 'center';
 }
@@ -13,27 +15,49 @@ interface TourStep {
 const TOUR_STEPS: TourStep[] = [
   {
     targetId: 'tour-step-balance',
-    title: '👋 ¡Hola! Este es tu Balance Principal',
-    description: 'Aquí verás tu dinero total disponible estimado en tiempo real de todas tus redes activas.',
+    title: 'Tu Centro de Control Financiero',
+    icon: Wallet,
+    description: 'Aquí verás tu saldo total estimado. Usa el ícono del ojo para ocultarlo en público y el botón de recargar para actualizarlo en tiempo real.',
     position: 'bottom'
   },
   {
-    targetId: 'tour-step-receive',
-    title: '⬇️ Recibe Fondos fácilmente',
-    description: 'Usa este botón para ver tu código QR o copiar tu dirección pública para recibir transferencias.',
-    position: 'top'
+    targetId: 'tour-sidebar-send',
+    mobileTargetId: 'tour-bottomnav-send',
+    title: 'Realiza Transferencias',
+    icon: Send,
+    description: 'Dirígete aquí cuando necesites enviar criptomonedas a otra dirección. Nuestro sistema validará las direcciones automáticamente por seguridad.',
+    position: 'right'
   },
   {
-    targetId: 'tour-step-send',
-    title: '⬆️ Envía Criptomonedas de forma segura',
-    description: 'Transfiere fondos a otras cuentas de forma rápida ingresando la dirección de destino o escaneando su QR.',
-    position: 'top'
+    targetId: 'tour-sidebar-receive',
+    mobileTargetId: 'tour-bottomnav-receive',
+    title: 'Recibe Activos',
+    icon: QrCode,
+    description: 'Obtén tu código QR o copia tu dirección pública exacta de la red activa para que otros te envíen fondos sin riesgo de pérdida.',
+    position: 'right'
   },
   {
-    targetId: 'tour-step-history',
-    title: '📊 Historial de Actividad',
-    description: 'Monitorea tus ingresos, egresos y el estado detallado de tus transacciones en esta sección.',
-    position: 'top'
+    targetId: 'tour-sidebar-history',
+    mobileTargetId: 'tour-bottomnav-history',
+    title: 'Registro y Trazabilidad',
+    icon: History,
+    description: 'Consulta todos tus ingresos, egresos y el estado en la blockchain de tus movimientos pasados en este módulo dedicado.',
+    position: 'right'
+  },
+  {
+    targetId: 'tour-sidebar-settings',
+    mobileTargetId: 'tour-bottomnav-settings',
+    title: 'Privacidad y Zona de Peligro',
+    icon: Settings,
+    description: 'Personaliza el cierre de sesión automático y gestiona la eliminación segura de tu billetera local si necesitas migrarla de navegador.',
+    position: 'right'
+  },
+  {
+    targetId: 'no-target',
+    title: '100% No Custodial',
+    icon: ShieldCheck,
+    description: 'Recuerda: tus claves privadas nunca salen de tu dispositivo. Tú eres el único dueño de tus fondos. ¡Disfruta usando A-Wallet!',
+    position: 'center'
   }
 ];
 
@@ -61,7 +85,8 @@ export function DashboardTour() {
     }
 
     const step = TOUR_STEPS[currentStepIndex];
-    const targetElement = document.getElementById(step.targetId);
+    const targetElement = document.getElementById(step.targetId) || 
+                         (step.mobileTargetId ? document.getElementById(step.mobileTargetId) : null);
 
     cleanupActiveHighlights();
 
@@ -236,11 +261,14 @@ export function DashboardTour() {
           </button>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <h4 className="text-sm font-bold text-text-primary tracking-tight">
-            {step.title}
-          </h4>
-          <p className="text-xs text-text-secondary leading-relaxed">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <step.icon size={18} className="text-accent-primary shrink-0" />
+            <h4 className="text-sm font-bold text-text-primary tracking-tight">
+              {step.title}
+            </h4>
+          </div>
+          <p className="text-xs text-text-secondary leading-relaxed pl-6">
             {step.description}
           </p>
         </div>

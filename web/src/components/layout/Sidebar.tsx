@@ -75,6 +75,7 @@ export function Sidebar() {
               return (
                 <Link
                   key={link.href}
+                  id={`tour-sidebar-${link.href.replace('/', '')}`}
                   href={link.href}
                   onClick={() => {
                     if (window.innerWidth < 768) toggleSidebar();

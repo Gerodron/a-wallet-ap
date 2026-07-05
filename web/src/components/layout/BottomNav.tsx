@@ -28,6 +28,7 @@ export function BottomNav() {
         return (
           <Link
             key={tab.href}
+            id={`tour-bottomnav-${tab.href.replace('/', '')}`}
             href={tab.href}
             className={`bottom-nav-link ${isActive ? 'active' : ''}`}
           >
