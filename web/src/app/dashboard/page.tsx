@@ -21,11 +21,8 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-text-primary tracking-tight font-sans">Mi Portafolio</h2>
-          <p className="text-xs text-text-secondary mt-0.5 font-medium">Resumen unificado de tus saldos</p>
-        </div>
+      <div className="flex items-center justify-end">
+
         <button 
           onClick={handleRefresh}
           className="btn-secondary py-1.5 px-3.5 rounded-lg flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary select-none shrink-0 cursor-pointer hover:bg-bg-tertiary transition-all"

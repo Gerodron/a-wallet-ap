@@ -23,12 +23,7 @@ export default function ReceivePage() {
 
   return (
     <div className="flex flex-col gap-6 py-4">
-      <div>
-        <h2 className="text-xl font-bold text-text-primary">Recibir Fondos</h2>
-        <p className="text-xs text-text-secondary mt-0.5">
-          Recibe activos utilizando un código QR o copiando tu dirección de red.
-        </p>
-      </div>
+
 
       <Card className="max-w-md mx-auto text-center border border-border bg-bg-primary shadow-xs p-6 md:p-8 animate-fade-in">
         <div className="flex flex-col items-center gap-5">

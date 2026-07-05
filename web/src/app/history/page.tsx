@@ -157,20 +157,7 @@ export default function HistoryPage() {
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <History size={18} className="text-text-secondary" />
-          <div>
-            <h2 className="text-xl font-bold text-accent-primary tracking-tight font-sans">
-              Historial de Transacciones
-            </h2>
-            <p className="text-xs text-text-secondary mt-0.5 font-medium">
-              Registro de operaciones en la red {currentNetworkConfig.name}
-            </p>
-          </div>
-        </div>
-
-        <button
+      <div className="flex items-center justify-end">        <button
           onClick={refetch}
           disabled={isLoading}
           className="btn-secondary py-1.5 px-3.5 rounded-lg flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary select-none shrink-0 cursor-pointer hover:bg-bg-tertiary transition-all disabled:opacity-50"

@@ -25,14 +25,7 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col gap-8 max-w-4xl mx-auto py-4 animate-fade-in">
       
-      <div className="flex flex-col gap-1.5">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight font-sans">
-          Configuración
-        </h2>
-        <p className="text-sm text-text-secondary font-medium">
-          Administra la seguridad y preferencias de tu entorno local.
-        </p>
-      </div>
+
 
       <div className="flex flex-col gap-10">
         

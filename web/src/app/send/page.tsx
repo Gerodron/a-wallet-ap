@@ -94,12 +94,7 @@ export default function SendPage() {
 
   return (
     <div className="flex flex-col gap-6 py-4">
-      <div>
-        <h2 className="text-xl font-bold text-text-primary">Enviar Fondos</h2>
-        <p className="text-xs text-text-secondary mt-0.5">
-          Transfiere activos criptográficos a otra dirección externa de forma descentralizada.
-        </p>
-      </div>
+
 
       <Card className="max-w-md mx-auto border border-border bg-bg-primary shadow-xs p-6 md:p-8">
         
