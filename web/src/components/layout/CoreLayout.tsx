@@ -60,7 +60,7 @@ export function CoreLayout({ children }: { children: React.ReactNode }) {
 
     return (
       <div className="min-h-screen bg-bg-secondary text-text-primary flex items-center justify-center p-4">
-        <main className="w-full max-w-lg animate-fade-in-up">
+        <main className="w-full max-w-lg">
           {children}
         </main>
         <ToastContainer toasts={notifications} onDismiss={removeNotification} />
@@ -73,8 +73,8 @@ export function CoreLayout({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div className="flex-1 flex flex-col min-h-screen max-h-screen overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6">
-          <div className="max-w-5xl mx-auto w-full animate-fade-in-up">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6 relative">
+          <div className="max-w-5xl mx-auto w-full">
             {children}
           </div>
         </main>

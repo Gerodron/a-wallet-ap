@@ -255,91 +255,93 @@ export default function SendPage() {
         )}
       </Card>
 
-      {/* ── Step 2: Confirmation Sheet (Rendered globally on top when active) ── */}
+      {/* ── Step 2: Confirmation Sheet (Full screen on mobile, Modal on desktop) ── */}
       {currentStep === 2 && (
-        <>
-          <div
-            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[2px] transition-opacity duration-300"
-            onClick={() => { setCurrentStep(1); setErrorMessage(''); }}
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg-primary sm:bg-black/40 sm:backdrop-blur-sm transition-all duration-300">
+          
+          {/* Invisible backdrop click area for desktop */}
+          <div 
+            className="hidden sm:block absolute inset-0 z-0" 
+            onClick={() => { setCurrentStep(1); setErrorMessage(''); }} 
           />
-          <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center">
-            <div className="w-full max-w-md animate-slide-up">
-              <div className="bg-bg-primary rounded-t-3xl border border-border border-b-0 shadow-2xl overflow-hidden">
-                <div className="flex justify-center pt-3 pb-1">
-                  <div className="w-10 h-1 rounded-full bg-border" />
+
+          <div className="relative z-10 w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-md animate-slide-up flex flex-col bg-bg-primary sm:rounded-3xl sm:border border-border sm:shadow-2xl overflow-hidden">
+            <div className="flex-1 px-6 py-10 sm:p-8 flex flex-col gap-6 overflow-y-auto no-scrollbar">
+              <div className="text-center">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-text-tertiary select-none">Confirmar Operación</p>
+                <p className="text-sm text-text-secondary mt-1.5">Revisa los detalles antes de autorizar</p>
+              </div>
+
+              <div className="flex flex-col items-center gap-2 py-8 border-y border-border px-4">
+                <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">Vas a enviar</p>
+                <p className="text-5xl font-extrabold text-accent-primary tracking-tight text-center break-words w-full">
+                  {sendAmount} <span className="text-3xl font-bold">{currentNetworkConfig.symbol}</span>
+                </p>
+                <p className="text-sm text-text-secondary font-medium capitalize">{currentNetworkConfig.name}</p>
+              </div>
+
+              <div className="flex flex-col rounded-2xl border border-border overflow-hidden bg-bg-secondary shadow-sm">
+                <div className="flex items-start justify-between px-5 py-4 border-b border-border gap-4">
+                  <span className="text-xs font-semibold text-text-secondary shrink-0 pt-0.5">Destinatario</span>
+                  <span className="font-mono text-xs text-text-primary break-all text-right leading-relaxed min-w-0">
+                    {recipientAddress}
+                  </span>
                 </div>
-                <div className="px-6 pb-8 pt-4 flex flex-col gap-5">
-                  <div className="text-center">
-                    <p className="text-[11px] font-bold uppercase tracking-widest text-text-tertiary select-none">Confirmar Operación</p>
-                    <p className="text-xs text-text-secondary mt-1">Revisa los detalles antes de autorizar</p>
-                  </div>
-
-                  <div className="flex flex-col items-center gap-0.5 py-4 border-y border-border">
-                    <p className="text-[11px] font-semibold text-text-tertiary uppercase tracking-wider">Vas a enviar</p>
-                    <p className="text-4xl font-extrabold text-accent-primary tracking-tight mt-1">
-                      {sendAmount} <span className="text-2xl">{currentNetworkConfig.symbol}</span>
-                    </p>
-                    <p className="text-xs text-text-secondary mt-0.5 font-medium capitalize">{currentNetworkConfig.name}</p>
-                  </div>
-
-                  <div className="flex flex-col gap-0 rounded-xl border border-border overflow-hidden">
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary">
-                      <span className="text-[11px] font-semibold text-text-secondary">Destinatario</span>
-                      <span className="font-mono text-[11px] text-text-primary">{formatTruncatedString(recipientAddress)}</span>
-                    </div>
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg-secondary">
-                      <span className="text-[11px] font-semibold text-text-secondary">Comisión de red</span>
-                      <span className="text-[12px] font-semibold text-text-secondary">~{estimatedFee} {currentNetworkConfig.symbol}</span>
-                    </div>
-                    <div className="flex items-center justify-between px-4 py-3 bg-bg-secondary">
-                      <span className="text-[11px] font-semibold text-text-secondary">Total estimado</span>
-                      <span className="text-[12px] font-bold text-accent-primary">≈ {totalEstimated} {currentNetworkConfig.symbol}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-1.5 mb-0.5">
-                      <ShieldCheck size={13} className="text-accent-secondary" />
-                      <span className="text-[11px] font-bold text-text-secondary uppercase tracking-wider">Autorización PIN</span>
-                    </div>
-                    <Input
-                      type="password"
-                      placeholder="• • • • • •"
-                      value={securityPin}
-                      onChange={(e) => { setSecurityPin(e.target.value.replace(/\D/g, '').slice(0, 6)); setErrorMessage(''); }}
-                      maxLength={6}
-                      className="text-center tracking-[0.6em] font-extrabold text-lg py-3 focus:ring-2 focus:ring-accent-secondary/20"
-                      inputMode="numeric"
-                      autoFocus
-                    />
-                  </div>
-
-                  {errorMessage && (
-                    <div className="flex items-start gap-2 p-3 rounded-xl bg-error-dim border border-error/15 text-error text-xs font-semibold animate-fade-in">
-                      <AlertTriangle size={14} className="shrink-0 mt-0.5" />
-                      <span>{errorMessage}</span>
-                    </div>
-                  )}
-
-                  <div className="flex gap-3">
-                    <Button variant="secondary" onClick={() => { setCurrentStep(1); setErrorMessage(''); }} className="flex-1 py-3 text-sm">
-                      Cancelar
-                    </Button>
-                    <Button
-                      onClick={handleConfirmTransfer}
-                      isLoading={isProcessing}
-                      disabled={securityPin.length < 6}
-                      className="flex-1 py-3 text-sm bg-accent-primary hover:bg-[#001C3D] disabled:opacity-40"
-                    >
-                      {!isProcessing && <ShieldCheck size={15} />}
-                      Autorizar y Enviar
-                    </Button>
-                  </div>
+                <div className="flex items-center justify-between px-5 py-4 border-b border-border gap-4">
+                  <span className="text-xs font-semibold text-text-secondary shrink-0">Comisión de red</span>
+                  <span className="text-xs font-semibold text-text-secondary text-right truncate min-w-0">
+                    ~{estimatedFee} {currentNetworkConfig.symbol}
+                  </span>
                 </div>
+                <div className="flex items-center justify-between px-5 py-4 gap-4">
+                  <span className="text-xs font-semibold text-text-secondary shrink-0">Total estimado</span>
+                  <span className="text-sm font-bold text-accent-primary text-right truncate min-w-0">
+                    ≈ {totalEstimated} {currentNetworkConfig.symbol}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 mt-2">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <ShieldCheck size={14} className="text-accent-secondary" />
+                  <span className="text-[11px] font-bold text-text-secondary uppercase tracking-wider">Autorización PIN</span>
+                </div>
+                <Input
+                  type="password"
+                  placeholder="• • • • • •"
+                  value={securityPin}
+                  onChange={(e) => { setSecurityPin(e.target.value.replace(/\D/g, '').slice(0, 6)); setErrorMessage(''); }}
+                  maxLength={6}
+                  className="text-center tracking-[0.6em] font-extrabold text-xl py-4 focus:ring-2 focus:ring-accent-secondary/20 bg-bg-primary shadow-sm"
+                  inputMode="numeric"
+                  autoFocus
+                />
+              </div>
+
+              {errorMessage && (
+                <div className="flex items-start gap-2.5 p-4 rounded-xl bg-error-dim border border-error/15 text-error text-sm font-semibold animate-fade-in">
+                  <AlertTriangle size={16} className="shrink-0 mt-0.5" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              <div className="flex flex-col sm:flex-row gap-3 mt-auto pt-6">
+                <Button variant="secondary" onClick={() => { setCurrentStep(1); setErrorMessage(''); }} className="w-full sm:flex-1 py-4 text-sm font-bold shadow-sm">
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={handleConfirmTransfer}
+                  isLoading={isProcessing}
+                  disabled={securityPin.length < 6}
+                  className="w-full sm:flex-1 py-4 text-sm font-bold bg-accent-primary hover:bg-[#001C3D] disabled:opacity-40 shadow-sm"
+                >
+                  {!isProcessing && <ShieldCheck size={16} />}
+                  Autorizar y Enviar
+                </Button>
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
 
     </div>
