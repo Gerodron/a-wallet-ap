@@ -322,7 +322,7 @@ export default function SendPage() {
                   className="w-full sm:flex-1 py-4 text-sm font-bold bg-accent-primary hover:bg-[#001C3D] disabled:opacity-40 shadow-sm"
                 >
                   {!isProcessing && <ShieldCheck size={16} />}
-                  Autorizar y Enviar
+                  Confirmar Envío
                 </Button>
               </div>
             </div>

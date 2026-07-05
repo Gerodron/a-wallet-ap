@@ -71,7 +71,7 @@ export function Button({
           <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
         </svg>
       )}
-      <span>{children}</span>
+      <span className="inline-flex items-center justify-center gap-2">{children}</span>
     </button>
   );
 }
