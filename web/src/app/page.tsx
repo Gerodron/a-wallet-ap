@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, Button, Input } from '@/components/ui';
 import { useAuthStore } from '@/lib/store/auth-store';
 import { useWalletStore } from '@/lib/store/wallet-store';
-import { ShieldAlert, KeyRound } from 'lucide-react';
+import { ShieldAlert, KeyRound, Hexagon } from 'lucide-react';
 import Link from 'next/link';
 import { financeService } from '@/lib/api/financeService';
 
@@ -22,11 +22,7 @@ export default function EntryPage() {
       <div className="flex flex-col items-center justify-center min-h-[85vh] gap-8 max-w-md mx-auto text-center px-4 py-6">
         <div className="flex flex-col items-center gap-4">
           <div className="p-4 rounded-xl bg-accent-primary animate-float flex items-center justify-center shadow-xs">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10 text-white">
-              <path d="M12 2L3 7v6c0 5.5 4.5 10 9 10s9-4.5 9-10V7l-9-5z" />
-              <path d="M12 8v8" />
-              <path d="M9 13h6" />
-            </svg>
+            <Hexagon size={40} className="text-white" strokeWidth={2.5} />
           </div>
           <div className="flex flex-col gap-2 mt-1">
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-accent-primary font-sans">

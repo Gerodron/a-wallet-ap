@@ -12,7 +12,8 @@ import {
   Shield,
   Menu,
   X,
-  LogOut
+  LogOut,
+  Hexagon
 } from 'lucide-react';
 import { useUIStore } from '@/lib/store/ui-store';
 import { useAuthStore } from '@/lib/store/auth-store';
@@ -56,11 +57,7 @@ export function Sidebar() {
         <div className="flex flex-col gap-8">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-accent-primary flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white">
-                <path d="M12 2L3 7v6c0 5.5 4.5 10 9 10s9-4.5 9-10V7l-9-5z" />
-                <path d="M12 8v8" />
-                <path d="M9 13h6" />
-              </svg>
+              <Hexagon size={20} className="text-white" strokeWidth={2.5} />
             </div>
             <div>
               <span className="font-extrabold text-lg tracking-tight text-accent-primary font-sans">A-Wallet</span>
