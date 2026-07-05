@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Button } from '@/components/ui';
-import { Settings, Shield, Lock, CircleAlert, Check } from 'lucide-react';
+import { Settings, Shield, Lock, CircleAlert, Check, Eye, KeyRound, MonitorSmartphone, Trash2 } from 'lucide-react';
 import { useAuthStore } from '@/lib/store/auth-store';
 import { useWalletStore } from '@/lib/store/wallet-store';
-import { useState } from 'react';
 
 export default function SettingsPage() {
   const { failedAttempts, lock } = useAuthStore();
@@ -13,7 +12,6 @@ export default function SettingsPage() {
   const [purged, setPurged] = useState(false);
 
   const handlePurge = () => {
-    // Purges secure storage & wallet preferences completely (BR-05 / security mitigation)
     if (typeof window !== 'undefined') {
       localStorage.clear();
     }
@@ -25,64 +23,90 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 animate-fade-in">
-      <div className="flex items-center gap-2">
-        <Settings size={18} className="text-text-secondary" />
-        <div>
-          <h2 className="text-xl font-bold text-accent-primary tracking-tight font-sans">Configuración General</h2>
-          <p className="text-xs text-text-secondary mt-0.5 font-medium">Administra los parámetros de seguridad e interfaz local de la wallet.</p>
-        </div>
+    <div className="flex flex-col gap-8 max-w-4xl mx-auto py-4 animate-fade-in">
+      
+      <div className="flex flex-col gap-1.5">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight font-sans">
+          Configuración
+        </h2>
+        <p className="text-sm text-text-secondary font-medium">
+          Administra la seguridad y preferencias de tu entorno local.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Security & Access Block */}
-        <Card className="flex flex-col gap-5 border border-border bg-bg-primary shadow-xs p-6">
-          <div className="flex items-center gap-2 mb-1">
-            <Shield size={16} className="text-accent-primary shrink-0" />
-            <h3 className="text-xs font-bold text-accent-primary uppercase tracking-wider">Seguridad y Acceso</h3>
+      <div className="flex flex-col gap-10">
+        
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 px-1">
+            <Shield size={18} className="text-accent-primary" />
+            <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider">Seguridad</h3>
           </div>
-
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between border-b border-border pb-3">
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-text-primary">Bloqueo por Inactividad</span>
-                <span className="text-[10px] text-text-secondary font-medium mt-0.5">Expira y cierra tu sesión local tras 15 minutos</span>
+          
+          <Card className="flex flex-col border border-border bg-bg-primary shadow-xs p-0 overflow-hidden">
+            
+            <div className="group flex items-center justify-between p-5 border-b border-border hover:bg-bg-secondary/50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-accent-primary/10 flex items-center justify-center text-accent-primary shrink-0">
+                  <MonitorSmartphone size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-text-primary">Autobloqueo por Inactividad</span>
+                  <span className="text-xs text-text-tertiary font-medium mt-0.5">La sesión local expira tras 15 minutos</span>
+                </div>
               </div>
-              <span className="text-[10px] font-bold text-success font-mono uppercase bg-success-dim border border-success/15 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
                 Activo
               </span>
             </div>
 
-            <div className="flex items-center justify-between border-b border-border pb-3">
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-text-primary">Intentos de PIN fallidos</span>
-                <span className="text-[10px] text-text-secondary font-medium mt-0.5">Se purgará la llave tras 5 fallos consecutivos</span>
+            <div className="group flex items-center justify-between p-5 border-b border-border hover:bg-bg-secondary/50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 shrink-0">
+                  <KeyRound size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-text-primary">Intentos de PIN</span>
+                  <span className="text-xs text-text-tertiary font-medium mt-0.5">La llave se elimina tras 5 fallos</span>
+                </div>
               </div>
-              <span className="text-xs font-mono font-bold text-text-secondary">
+              <span className="text-sm font-mono font-bold text-text-secondary bg-bg-secondary px-3 py-1 rounded-lg border border-border">
                 {failedAttempts} / 5
               </span>
             </div>
-          </div>
 
-          <Button variant="secondary" onClick={lock} className="flex items-center gap-2 text-xs py-2.5 px-4 shadow-xs mt-2">
-            <Lock size={12} />
-            <span>Bloquear Wallet Ahora</span>
-          </Button>
-        </Card>
-
-        {/* Interface Preferences */}
-        <Card className="flex flex-col gap-5 justify-between border border-border bg-bg-primary shadow-xs p-6">
-          <div className="flex flex-col gap-5">
-            <div className="flex items-center gap-2 mb-1">
-              <Settings size={16} className="text-accent-primary shrink-0 animate-spin" style={{ animationDuration: '8s' }} />
-              <h3 className="text-xs font-bold text-accent-primary uppercase tracking-wider">Interfaz</h3>
+            <div className="p-5 bg-bg-secondary/30 flex items-center justify-between">
+              <div className="flex flex-col">
+                <span className="text-sm font-bold text-text-primary">Cierre de Sesión Inmediato</span>
+                <span className="text-xs text-text-tertiary font-medium mt-0.5">Bloquea el acceso a la wallet ahora mismo</span>
+              </div>
+              <Button variant="secondary" onClick={lock} className="flex items-center gap-2 text-xs py-2 px-4 shadow-sm border-border-hover">
+                <Lock size={14} />
+                <span>Bloquear</span>
+              </Button>
             </div>
 
-            <div className="flex items-center justify-between border-b border-border pb-3">
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-text-primary">Ocultar Balances por Defecto</span>
-                <span className="text-[10px] text-text-secondary font-medium mt-0.5">Muestra asteriscos en lugar de saldos al iniciar</span>
+          </Card>
+        </section>
+
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 px-1">
+            <Settings size={18} className="text-accent-primary" />
+            <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider">Interfaz</h3>
+          </div>
+          
+          <Card className="flex flex-col border border-border bg-bg-primary shadow-xs p-0 overflow-hidden">
+            
+            <div className="group flex items-center justify-between p-5 hover:bg-bg-secondary/50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-accent-primary/10 flex items-center justify-center text-accent-primary shrink-0">
+                  <Eye size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-text-primary">Ocultar Balances al Inicio</span>
+                  <span className="text-xs text-text-tertiary font-medium mt-0.5">Privacidad visual activada por defecto</span>
+                </div>
               </div>
+              
               <label className="inline-flex items-center cursor-pointer select-none">
                 <input 
                   type="checkbox"
@@ -90,38 +114,51 @@ export default function SettingsPage() {
                   onChange={toggleBalanceVisibility}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-slate-300 peer-checked:bg-accent-secondary rounded-full relative transition-all duration-200 after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:rounded-full after:h-[18px] after:w-[18px] after:transition-all peer-checked:after:translate-x-5 shadow-xs">
+                <div className="w-12 h-6 bg-slate-200 peer-checked:bg-accent-primary rounded-full relative transition-all duration-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-300 peer-checked:after:translate-x-6 shadow-inner border border-transparent peer-checked:border-accent-primary/50">
                 </div>
               </label>
             </div>
-          </div>
 
-          {/* Reset / Purge Action (Mitigación OWASP) */}
-          <div className="pt-4 border-t border-border mt-3">
-            <div className="p-3.5 rounded-xl bg-error-dim border border-error/15 flex gap-2 text-[11px] text-error leading-normal font-semibold mb-4 text-left">
-              <CircleAlert size={16} className="shrink-0 mt-0.5" />
-              <span>
-                Esta acción borrará definitivamente todas tus configuraciones cifradas de este navegador. Asegúrate de respaldar tus 12 palabras.
-              </span>
-            </div>
-            <Button 
-              variant="danger" 
-              onClick={handlePurge}
-              disabled={purged} 
-              fullWidth 
-              className="text-xs py-2.5 shadow-xs"
-            >
-              {purged ? (
-                <div className="flex items-center gap-1.5 justify-center">
-                  <Check size={14} className="stroke-[3]" />
-                  <span>Wallet Purgada...</span>
-                </div>
-              ) : (
-                'Eliminar Datos de Este Navegador'
-              )}
-            </Button>
+          </Card>
+        </section>
+
+        <section className="flex flex-col gap-4 mt-4">
+          <div className="flex items-center gap-2 px-1">
+            <CircleAlert size={18} className="text-error" />
+            <h3 className="text-sm font-bold text-error uppercase tracking-wider">Zona de Peligro</h3>
           </div>
-        </Card>
+          
+          <Card className="flex flex-col border border-error/30 bg-error/5 shadow-xs p-0 overflow-hidden">
+            <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+              <div className="flex flex-col gap-1 max-w-lg">
+                <span className="text-sm font-bold text-error">Eliminar Datos Locales</span>
+                <span className="text-xs text-error/80 font-medium leading-relaxed">
+                  Esta acción borrará definitivamente todas tus configuraciones cifradas y billeteras generadas en este navegador. Perderás el acceso si no tienes tu frase de recuperación (12 palabras) respaldada.
+                </span>
+              </div>
+              
+              <Button 
+                variant="danger" 
+                onClick={handlePurge}
+                disabled={purged} 
+                className="text-xs py-3 px-5 shadow-sm whitespace-nowrap shrink-0 flex items-center gap-2"
+              >
+                {purged ? (
+                  <>
+                    <Check size={14} className="stroke-[3]" />
+                    <span>Purgando...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 size={14} />
+                    <span>Eliminar Billetera</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </Card>
+        </section>
+
       </div>
     </div>
   );

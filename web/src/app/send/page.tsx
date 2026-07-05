@@ -90,11 +90,7 @@ export default function SendPage() {
     setTimeout(() => setIsCopied(false), 2000);
   };
 
-  const getStepIndicatorClass = (stepNumber: number) => {
-    if (currentStep > stepNumber) return 'border-emerald-500 bg-emerald-500 text-white';
-    if (currentStep === stepNumber) return 'border-accent-secondary text-accent-secondary shadow-xs bg-bg-primary';
-    return 'border-border text-text-tertiary bg-bg-primary';
-  };
+
 
   return (
     <div className="flex flex-col gap-6 py-4">
@@ -107,27 +103,7 @@ export default function SendPage() {
 
       <Card className="max-w-md mx-auto border border-border bg-bg-primary shadow-xs p-6 md:p-8">
         
-        {currentStep !== 3 && (
-          <div className="mb-6 px-1 animate-fade-in">
-            <div className="relative flex items-center justify-between w-full">
-              <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-border z-0" />
-              <div
-                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-accent-secondary z-0 transition-all duration-500 ease-in-out"
-                style={{ width: currentStep === 1 ? '0%' : '50%' }}
-              />
-              {[1, 2, 3].map((stepNumber) => (
-                <div key={stepNumber} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-extrabold relative z-10 transition-all duration-300 ${getStepIndicatorClass(stepNumber)}`}>
-                  {currentStep > stepNumber ? <Check size={13} className="stroke-[3]" /> : stepNumber}
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-between text-[9px] text-text-tertiary font-bold uppercase tracking-wider mt-2.5 px-0.5 select-none">
-              <span className={currentStep === 1 ? 'text-accent-secondary' : ''}>Detalles</span>
-              <span className={currentStep === 2 ? 'text-accent-secondary' : ''}>Confirmar</span>
-              <span>Listo</span>
-            </div>
-          </div>
-        )}
+
 
         {currentStep === 1 && (
           <div className="flex flex-col gap-5 animate-fade-in">

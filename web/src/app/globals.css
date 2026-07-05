@@ -75,6 +75,13 @@
   --color-border-hover: var(--border-hover);
   --color-border-accent: var(--border-accent);
 
+  --color-success: var(--success);
+  --color-success-dim: var(--success-dim);
+  --color-error: var(--error);
+  --color-error-dim: var(--error-dim);
+  --color-warning: var(--warning);
+  --color-warning-dim: var(--warning-dim);
+
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
