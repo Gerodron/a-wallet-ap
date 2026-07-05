@@ -65,9 +65,21 @@ export function useWallet() {
 
   const refreshBalances = useCallback(async () => {
     setLoadingBalances(true);
-    // Simulate API fetch delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setLoadingBalances(false);
+    try {
+      const { financeService } = await import('@/lib/api/financeService');
+      const response = await financeService.getBalances();
+      const { setBalance } = useWalletStore.getState();
+      (['solana', 'bitcoin', 'bnb'] as const).forEach((net) => {
+        const b = response[net];
+        if (b) {
+          setBalance(net, { native: b.native, nativeSymbol: b.nativeSymbol, nativeUSD: b.nativeUSD, tokens: [] });
+        }
+      });
+    } catch {
+      // silently swallow — balance card shows stale data with visual indicator
+    } finally {
+      setLoadingBalances(false);
+    }
   }, [setLoadingBalances]);
 
   return {

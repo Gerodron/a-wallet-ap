@@ -12,15 +12,30 @@ import { useInactivityTimer } from '@/lib/hooks/useInactivityTimer';
 
 export function CoreLayout({ children }: { children: React.ReactNode }) {
   const { notifications, removeNotification } = useUIStore();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, jwtToken, logout } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
-  
+
   // Activate global inactivity detector
   useInactivityTimer();
 
   useEffect(() => {
     const publicPaths = ['/', '/onboarding/create', '/onboarding/import'];
+
+    // ── F5 / page-reload fix ──────────────────────────────────────────────
+    // `isAuthenticated` is persisted in localStorage, but `jwtToken` is
+    // kept in-memory only. After a hard reload the flag stays true but the
+    // token is gone, making every authenticated API call return 401.
+    // Detect that inconsistency and force a clean logout so the user goes
+    // through the PIN screen and gets a fresh JWT.
+    if (isAuthenticated && !jwtToken) {
+      logout();
+      if (!publicPaths.includes(pathname)) {
+        router.push('/');
+      }
+      return;
+    }
+
     if (!isAuthenticated) {
       if (!publicPaths.includes(pathname)) {
         router.push('/');
@@ -30,7 +45,7 @@ export function CoreLayout({ children }: { children: React.ReactNode }) {
         router.push('/dashboard');
       }
     }
-  }, [isAuthenticated, pathname, router]);
+  }, [isAuthenticated, jwtToken, pathname, router, logout]);
 
   const isPublicPath = ['/', '/onboarding/create', '/onboarding/import'].includes(pathname);
 

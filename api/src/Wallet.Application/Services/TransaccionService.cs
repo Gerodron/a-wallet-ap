@@ -125,6 +125,31 @@ namespace Wallet.Application.Services
             return Convert.ToHexString(bytes);
         }
 
+        public async Task<GetHistorialResponseDto> GetHistorialAsync(Guid usuarioId, string? network, int page, int pageSize)
+        {
+            var transacciones = await _unitOfWork.Transacciones.GetByUsuarioIdAsync(usuarioId, network, page, pageSize);
+
+            var items = transacciones.Select(t => new TransaccionHistorialDto
+            {
+                TransaccionId = t.TransaccionId,
+                TxHash = t.TxHash,
+                Monto = t.Monto,
+                Red = t.Red,
+                DireccionDestino = t.DireccionDestino,
+                EstadoTransaccion = t.EstadoTransaccion,
+                FechaTransaccion = t.FechaTransaccion,
+                Tipo = "send"
+            }).ToList();
+
+            return new GetHistorialResponseDto
+            {
+                Items = items,
+                TotalItems = items.Count,
+                Page = page,
+                PageSize = pageSize
+            };
+        }
+
         private decimal GetExchangeRate(string network)
         {
             return network.ToLower() switch

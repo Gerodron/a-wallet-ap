@@ -10,6 +10,7 @@ namespace Wallet.Domain.Interfaces
         Task<Transaccion?> GetByIdAsync(Guid id);
         Task<Transaccion?> GetByTxHashAsync(string txHash);
         Task<IEnumerable<Transaccion>> GetByCuentaIdAsync(Guid cuentaId);
+        Task<IEnumerable<Transaccion>> GetByUsuarioIdAsync(Guid usuarioId, string? network = null, int page = 1, int pageSize = 20);
         Task AddAsync(Transaccion transaccion);
     }
 }

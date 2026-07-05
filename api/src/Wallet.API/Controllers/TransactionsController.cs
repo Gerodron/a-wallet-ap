@@ -27,6 +27,41 @@ namespace Wallet.API.Controllers
         }
 
         [Authorize]
+        [HttpGet("history")]
+        [HttpGet("historial")]
+        public async Task<IActionResult> GetHistory([FromQuery] string? network, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        {
+            try
+            {
+                var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdStr))
+                {
+                    return Unauthorized(new ApiResponse<object>
+                    {
+                        Success = false,
+                        Error = new ApiError { Code = "UNAUTHORIZED", Message = "Sesión inválida.", StatusCode = 401 }
+                    });
+                }
+
+                var userId = Guid.Parse(userIdStr);
+                var result = await _transaccionService.GetHistorialAsync(userId, network, page, pageSize);
+                return Ok(new ApiResponse<GetHistorialResponseDto>
+                {
+                    Success = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    Success = false,
+                    Error = new ApiError { Code = "HISTORY_FAILED", Message = ex.Message, StatusCode = 400 }
+                });
+            }
+        }
+
+        [Authorize]
         [HttpPost("transferir")]
         [HttpPost("transfer")]
         public async Task<IActionResult> Transfer([FromBody] TransferRequestDto dto)
