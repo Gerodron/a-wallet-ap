@@ -11,7 +11,7 @@ import { financeService } from '@/lib/api/financeService';
 
 export default function EntryPage() {
   const router = useRouter();
-  const { login, failedAttempts, isLocked, incrementFailedAttempts } = useAuthStore();
+  const { login, failedAttempts, maxFailedAttempts, isLocked, incrementFailedAttempts } = useAuthStore();
   const { isInitialized } = useWalletStore();
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
@@ -107,9 +107,16 @@ export default function EntryPage() {
         </div>
 
         {error && (
-          <div className="p-3 rounded-xl bg-error-dim border border-error/15 text-error text-[11px] md:text-xs font-semibold leading-relaxed text-left flex items-start gap-2.5">
-            <ShieldAlert size={14} className="shrink-0 mt-0.5" />
-            <span>{error}</span>
+          <div className="flex flex-col gap-2">
+            <div className="p-3 rounded-xl bg-error-dim border border-error/15 text-error text-[11px] md:text-xs font-semibold leading-relaxed text-left flex items-start gap-2.5">
+              <ShieldAlert size={14} className="shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+            {failedAttempts > 0 && (
+              <div className="text-[11px] md:text-xs font-bold text-orange-500 bg-orange-500/10 p-2 rounded-lg border border-orange-500/20 text-center">
+                Te quedan {maxFailedAttempts - failedAttempts} intentos antes de borrar la billetera
+              </div>
+            )}
           </div>
         )}
 

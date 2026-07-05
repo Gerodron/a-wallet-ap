@@ -7,7 +7,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-const MAX_ATTEMPTS = 5;
 export const INACTIVITY_TIMEOUT = 15 * 60 * 1000;
 
 interface AuthState {
@@ -15,6 +14,8 @@ interface AuthState {
   isLocked: boolean;
   jwtToken: string | null;
   failedAttempts: number;
+  previousFailedAttempts: number;
+  maxFailedAttempts: number;
   lastActivityTime: number;
 
   login: (token: string) => void;
@@ -24,6 +25,7 @@ interface AuthState {
   setJwtToken: (token: string) => void;
   incrementFailedAttempts: () => void;
   resetFailedAttempts: () => void;
+  setMaxFailedAttempts: (limit: number) => void;
   updateActivity: () => void;
 }
 
@@ -32,6 +34,8 @@ const INITIAL_STATE = {
   isLocked: false,
   jwtToken: null as string | null,
   failedAttempts: 0,
+  previousFailedAttempts: 0,
+  maxFailedAttempts: 5,
   lastActivityTime: Date.now(),
 };
 
@@ -41,21 +45,23 @@ export const useAuthStore = create<AuthState>()(
       ...INITIAL_STATE,
 
       login: (token) =>
-        set({
+        set((state) => ({
           isAuthenticated: true,
           isLocked: false,
           jwtToken: token,
+          previousFailedAttempts: state.failedAttempts,
           failedAttempts: 0,
           lastActivityTime: Date.now(),
-        }),
+        })),
 
-      logout: () => set({ ...INITIAL_STATE, lastActivityTime: Date.now() }),
+      logout: () => set({ ...INITIAL_STATE, maxFailedAttempts: get().maxFailedAttempts, lastActivityTime: Date.now() }),
 
       lock: () => set({ isLocked: true }),
 
       unlock: (token) =>
         set((state) => ({
           isLocked: false,
+          previousFailedAttempts: state.failedAttempts,
           failedAttempts: 0,
           lastActivityTime: Date.now(),
           jwtToken: token ?? state.jwtToken,
@@ -65,11 +71,12 @@ export const useAuthStore = create<AuthState>()(
 
       incrementFailedAttempts: () => {
         const next = get().failedAttempts + 1;
-        if (next >= MAX_ATTEMPTS) {
-          set({ ...INITIAL_STATE, lastActivityTime: Date.now() });
+        if (next >= get().maxFailedAttempts) {
+          set({ ...INITIAL_STATE, maxFailedAttempts: get().maxFailedAttempts, lastActivityTime: Date.now() });
           try {
             if (typeof window !== 'undefined') {
-              localStorage.removeItem('wallet-storage');
+              localStorage.clear();
+              window.location.reload();
             }
           } catch {
             // Ignorado
@@ -80,6 +87,9 @@ export const useAuthStore = create<AuthState>()(
       },
 
       resetFailedAttempts: () => set({ failedAttempts: 0 }),
+      
+      setMaxFailedAttempts: (limit: number) => set({ maxFailedAttempts: limit }),
+
       updateActivity: () => set({ lastActivityTime: Date.now() }),
     }),
     {
@@ -88,6 +98,8 @@ export const useAuthStore = create<AuthState>()(
         isAuthenticated: state.isAuthenticated,
         isLocked: state.isLocked,
         failedAttempts: state.failedAttempts,
+        previousFailedAttempts: state.previousFailedAttempts,
+        maxFailedAttempts: state.maxFailedAttempts,
         lastActivityTime: state.lastActivityTime,
       }),
     },
@@ -98,4 +110,4 @@ export const selectIsSessionActive = (s: AuthState) =>
   s.isAuthenticated && !s.isLocked;
 
 export const selectRemainingAttempts = (s: AuthState) =>
-  MAX_ATTEMPTS - s.failedAttempts;
+  s.maxFailedAttempts - s.failedAttempts;

@@ -7,10 +7,10 @@ import { Bell, User } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export function Header() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, isLocked } = useAuthStore();
   const pathname = usePathname();
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated || isLocked) return null;
 
   const getPageTitle = () => {
     if (pathname.includes('/dashboard')) return 'Resumen de Cuenta';

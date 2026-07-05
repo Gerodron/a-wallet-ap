@@ -20,9 +20,9 @@ import { useAuthStore } from '@/lib/store/auth-store';
 export function Sidebar() {
   const pathname = usePathname();
   const { isSidebarOpen, toggleSidebar } = useUIStore();
-  const { logout, isAuthenticated } = useAuthStore();
+  const { logout, isAuthenticated, isLocked } = useAuthStore();
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated || isLocked) return null;
 
   const links = [
     { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },

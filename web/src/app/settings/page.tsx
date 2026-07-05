@@ -7,7 +7,7 @@ import { useAuthStore } from '@/lib/store/auth-store';
 import { useWalletStore } from '@/lib/store/wallet-store';
 
 export default function SettingsPage() {
-  const { failedAttempts, lock } = useAuthStore();
+  const { previousFailedAttempts, maxFailedAttempts, lock } = useAuthStore();
   const { isBalanceHidden, toggleBalanceVisibility, reset } = useWalletStore();
   const [purged, setPurged] = useState(false);
 
@@ -59,11 +59,11 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-text-primary">Intentos de PIN</span>
-                  <span className="text-xs text-text-tertiary font-medium mt-0.5">La llave se elimina tras 5 fallos</span>
+                  <span className="text-xs text-text-tertiary font-medium mt-0.5">La llave se elimina tras {maxFailedAttempts} fallos</span>
                 </div>
               </div>
               <span className="text-sm font-mono font-bold text-text-secondary bg-bg-secondary px-3 py-1 rounded-lg border border-border">
-                {failedAttempts} / 5
+                {previousFailedAttempts} / {maxFailedAttempts}
               </span>
             </div>
 

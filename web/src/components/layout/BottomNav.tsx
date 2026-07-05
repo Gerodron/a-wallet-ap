@@ -8,9 +8,9 @@ import { useAuthStore } from '@/lib/store/auth-store';
 
 export function BottomNav() {
   const pathname = usePathname();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, isLocked } = useAuthStore();
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated || isLocked) return null;
 
   const tabs = [
     { href: '/dashboard', label: 'Dash', icon: LayoutDashboard },

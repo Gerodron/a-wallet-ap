@@ -10,17 +10,21 @@ using Wallet.Domain.Entities;
 using Wallet.Domain.Interfaces;
 using Wallet.Application.DTOs;
 
+using Microsoft.Extensions.Logging;
+
 namespace Wallet.Application.Services
 {
     public class AuthService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, ILogger<AuthService> logger)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterRequestDto dto)
@@ -110,6 +114,7 @@ namespace Wallet.Application.Services
             }
             else
             {
+                _logger.LogWarning("[Seguridad - Auditoría] Intento fallido de acceso local detectado. Se ha denegado la generación del token JWT por PIN incorrecto.");
                 throw new Exception("PIN incorrecto. Pruebe con '123456'.");
             }
 

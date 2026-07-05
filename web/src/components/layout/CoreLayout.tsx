@@ -12,11 +12,13 @@ import { useInactivityTimer } from '@/lib/hooks/useInactivityTimer';
 
 export function CoreLayout({ children }: { children: React.ReactNode }) {
   const { notifications, removeNotification } = useUIStore();
-  const { isAuthenticated, jwtToken, logout } = useAuthStore();
+  const { isAuthenticated, isLocked, jwtToken, logout } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
 
   useInactivityTimer();
+
+  const isSessionActive = isAuthenticated && !isLocked;
 
   useEffect(() => {
     const publicPaths = ['/', '/onboarding/create', '/onboarding/import'];
@@ -29,7 +31,7 @@ export function CoreLayout({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    if (!isAuthenticated) {
+    if (!isSessionActive) {
       if (!publicPaths.includes(pathname)) {
         router.push('/');
       }
@@ -38,11 +40,11 @@ export function CoreLayout({ children }: { children: React.ReactNode }) {
         router.push('/dashboard');
       }
     }
-  }, [isAuthenticated, jwtToken, pathname, router, logout]);
+  }, [isAuthenticated, isLocked, isSessionActive, jwtToken, pathname, router, logout]);
 
   const isPublicPath = ['/', '/onboarding/create', '/onboarding/import'].includes(pathname);
 
-  if (!isAuthenticated) {
+  if (!isSessionActive) {
     if (!isPublicPath) {
       return (
         <div className="min-h-screen bg-bg-secondary flex items-center justify-center p-4">
