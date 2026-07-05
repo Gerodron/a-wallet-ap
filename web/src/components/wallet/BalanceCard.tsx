@@ -6,54 +6,59 @@ import { Card } from '@/components/ui';
 import { Eye, EyeOff, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import Link from 'next/link';
 
-// ---------------------------------------------------------------------------
-// Skeleton for the balance card while data is loading
-// ---------------------------------------------------------------------------
-function BalanceCardSkeleton() {
-  return (
-    <div
-      className="relative rounded-2xl p-6 overflow-hidden"
-      style={{ backgroundColor: '#002855' }}
-    >
-      {/* shimmer overlay */}
-      <div className="absolute inset-0 opacity-[0.07]"
-        style={{
-          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
-          backgroundSize: '200% 100%',
-          animation: 'shimmer 1.8s ease-in-out infinite',
-        }}
-      />
-      <div className="flex flex-col gap-6">
-        <div className="flex items-start justify-between">
-          <div className="flex flex-col gap-2">
-            <div className="h-2.5 w-36 rounded bg-white/20" />
-            <div className="h-8 w-44 rounded-lg bg-white/20 mt-1" />
+export function BalanceCard() {
+  const {
+    totalValueUSD,
+    isBalanceHidden,
+    toggleBalanceVisibility,
+    activeNetwork,
+    balances,
+    isLoadingBalances
+  } = useWallet();
+
+  // ---------------------------------------------------------------------------
+  // Early return for Loading State (Flattened skeleton)
+  // ---------------------------------------------------------------------------
+  if (isLoadingBalances) {
+    return (
+      <div
+        className="relative rounded-2xl p-6 overflow-hidden"
+        style={{ backgroundColor: '#002855' }}
+      >
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
+            backgroundSize: '200% 100%',
+            animation: 'shimmer 1.8s ease-in-out infinite',
+          }}
+        />
+        <div className="flex flex-col gap-6">
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col gap-2">
+              <div className="h-2.5 w-36 rounded bg-white/20" />
+              <div className="h-8 w-44 rounded-lg bg-white/20 mt-1" />
+            </div>
+            <div className="h-6 w-14 rounded-full bg-white/20" />
           </div>
-          <div className="h-6 w-14 rounded-full bg-white/20" />
-        </div>
-        <div className="border-t border-white/10 pt-5 flex items-center justify-between">
-          <div className="flex flex-col gap-1.5">
-            <div className="h-2 w-24 rounded bg-white/20" />
-            <div className="h-5 w-28 rounded bg-white/20 mt-0.5" />
-          </div>
-          <div className="flex gap-2">
-            <div className="h-9 w-20 rounded-lg bg-white/20" />
-            <div className="h-9 w-20 rounded-lg bg-white/15" />
+          <div className="border-t border-white/10 pt-5 flex items-center justify-between">
+            <div className="flex flex-col gap-1.5">
+              <div className="h-2 w-24 rounded bg-white/20" />
+              <div className="h-5 w-28 rounded bg-white/20 mt-0.5" />
+            </div>
+            <div className="flex gap-2">
+              <div className="h-9 w-20 rounded-lg bg-white/20" />
+              <div className="h-9 w-20 rounded-lg bg-white/15" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
-// ---------------------------------------------------------------------------
-// BalanceCard
-// ---------------------------------------------------------------------------
-export function BalanceCard() {
-  const { totalValueUSD, isBalanceHidden, toggleBalanceVisibility, activeNetwork, balances, isLoadingBalances } = useWallet();
-
-  if (isLoadingBalances) return <BalanceCardSkeleton />;
-
+  // ---------------------------------------------------------------------------
+  // Data State
+  // ---------------------------------------------------------------------------
   const activeBalance = balances[activeNetwork];
   const nativeValue  = activeBalance?.native || 0;
   const symbol       = activeBalance?.nativeSymbol || 'SOL';

@@ -14,6 +14,9 @@ interface TokenListProps {
 export function TokenList({ tokens }: TokenListProps) {
   const { isBalanceHidden } = useWallet();
 
+  // ---------------------------------------------------------------------------
+  // Empty State Early Return
+  // ---------------------------------------------------------------------------
   if (tokens.length === 0) {
     return (
       <Card padding="lg" className="flex flex-col items-center justify-center text-center p-8 border border-border bg-bg-primary shadow-xs">
@@ -24,11 +27,22 @@ export function TokenList({ tokens }: TokenListProps) {
     );
   }
 
+  // ---------------------------------------------------------------------------
+  // Data Render
+  // ---------------------------------------------------------------------------
   return (
     <Card padding="none" className="overflow-hidden border border-border bg-bg-primary shadow-xs">
       <div className="divide-y divide-border">
         {tokens.map((token) => {
-          const config = NETWORK_CONFIGS[token.network];
+          const currentNetworkConfig = NETWORK_CONFIGS[token.network];
+          
+          let logoClasses = 'bg-[#F0B90B]/10 border-[#F0B90B]/20 text-[#926B00]'; // Default (BNB)
+          if (token.network === 'solana') {
+            logoClasses = 'bg-[#9945FF]/10 border-[#9945FF]/20 text-[#7A22E0]';
+          } else if (token.network === 'bitcoin') {
+            logoClasses = 'bg-[#F7931A]/10 border-[#F7931A]/20 text-[#C46A00]';
+          }
+
           return (
             <div 
               key={`${token.network}-${token.mint}`}
@@ -37,8 +51,7 @@ export function TokenList({ tokens }: TokenListProps) {
               <div className="flex items-center gap-3">
                 {/* Logo slot */}
                 <div 
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-base font-bold border shrink-0
-                    ${token.network === 'solana' ? 'bg-[#9945FF]/10 border-[#9945FF]/20 text-[#7A22E0]' : token.network === 'bitcoin' ? 'bg-[#F7931A]/10 border-[#F7931A]/20 text-[#C46A00]' : 'bg-[#F0B90B]/10 border-[#F0B90B]/20 text-[#926B00]'}`}
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-base font-bold border shrink-0 ${logoClasses}`}
                 >
                   <span>{token.symbol.charAt(0)}</span>
                 </div>
@@ -48,7 +61,7 @@ export function TokenList({ tokens }: TokenListProps) {
                     {token.name}
                   </span>
                   <span className="text-xs text-text-secondary font-medium mt-0.5">
-                    {token.symbol} en {config.name}
+                    {token.symbol} en {currentNetworkConfig.name}
                   </span>
                 </div>
               </div>
